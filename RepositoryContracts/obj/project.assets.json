@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_1\\RepositoryContracts\\RepositoryContracts.csproj",
+      "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj",
       "projectName": "RepositoryContracts",
-      "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_1\\RepositoryContracts\\RepositoryContracts.csproj",
+      "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj",
       "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_1\\RepositoryContracts\\obj\\",
+      "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -51,8 +51,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\domin\\RiderProjects\\Assignment_1\\Entities\\Entities.csproj": {
-              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_1\\Entities\\Entities.csproj"
+            "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
+              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj"
             }
           }
         }
