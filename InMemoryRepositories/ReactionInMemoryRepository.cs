@@ -3,9 +3,23 @@ using RepositoryContracts;
 
 namespace InMemoryRepositories;
 
-public class ReactionInMemoryRepository(List<Reaction> reactions) : IReactionRepository
+public class ReactionInMemoryRepository : IReactionRepository
 {
-    private List<Reaction> reactions = reactions;
+    private List<Reaction> reactions = new();
+
+    public ReactionInMemoryRepository()
+    {
+        DummyData();
+    }
+    
+    private Task DummyData()
+    {
+        AddAsync(new Reaction(1, 2, false, true, DateTime.Now));
+        AddAsync(new Reaction(2, 1, true, false, DateTime.Now));
+        AddAsync(new Reaction(3, 3, false, true, DateTime.Now));
+        AddAsync(new Reaction(4, 4, true, false, DateTime.Now));
+        return Task.CompletedTask;
+    }
 
     public Task<Reaction> AddAsync(Reaction reaction)
     {

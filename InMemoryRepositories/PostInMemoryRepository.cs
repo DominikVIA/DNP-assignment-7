@@ -3,10 +3,25 @@ using RepositoryContracts;
 
 namespace InMemoryRepositories;
 
-public class PostInMemoryRepository(List<Post> posts) : IPostRepository
+public class PostInMemoryRepository : IPostRepository
 {
-    private List<Post> posts = posts;
+    private List<Post> posts = new();
 
+    public PostInMemoryRepository()
+    {
+        DummyData();
+    }
+
+    private Task DummyData()
+    {
+        AddAsync(new Post(1, "Testing", "This is a test", DateTime.Now));
+        AddAsync(new Post(1, "SEP logo", "Check out this amazing logo", DateTime.Now));
+        AddAsync(new Post(2, "Going home", "I'm so tired", DateTime.Now));
+        AddAsync(new Post(3, "At the gym", "Look at my amazing muscles", DateTime.Now));
+        AddAsync(new Post(4, "Writing this", "The hardest part of programming", DateTime.Now));
+        return Task.CompletedTask;
+    }
+    
     public Task<Post> AddAsync(Post post)
     {
         post.Id = posts.Any() ? posts.Max(p => p.Id) + 1 : 1;

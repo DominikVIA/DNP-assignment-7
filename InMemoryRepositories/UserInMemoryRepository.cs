@@ -3,9 +3,23 @@ using RepositoryContracts;
 
 namespace InMemoryRepositories;
 
-public class UserInMemoryRepository (List<User> users) : IUserRepository
+public class UserInMemoryRepository : IUserRepository
 {
-    private List<User> users = users;
+    private List<User> users = new();
+
+    public UserInMemoryRepository()
+    {
+        DummyData();
+    }
+    
+    private Task DummyData()
+    {
+        AddAsync(new User("Maria", "Yepez"));
+        AddAsync(new User("Joan", "Hageneier"));
+        AddAsync(new User("Sebastian", "Villarroel"));
+        AddAsync(new User("Dominik", "Kielbowski"));
+        return Task.CompletedTask;
+    }
 
     public Task<User> AddAsync(User user)
     {
@@ -53,6 +67,18 @@ public class UserInMemoryRepository (List<User> users) : IUserRepository
         return Task.FromResult(existingUser);
     }
 
+    public Task<User> GetSingleAsync(User user)
+    {
+        User? existingUser = users.SingleOrDefault(u => u.Username.Equals(user.Username) && u.Password.Equals(user.Password));
+        if (existingUser is null)
+        {
+            throw new InvalidOperationException(
+                $"User with the username '{user.Username}' and/or password '{user.Password}' does not exist");
+        }
+        
+        return Task.FromResult(existingUser);
+    }
+    
     public IQueryable<User> GetMany()
     {
         return users.AsQueryable();

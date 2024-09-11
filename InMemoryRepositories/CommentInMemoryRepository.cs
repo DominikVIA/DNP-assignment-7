@@ -3,10 +3,23 @@ using RepositoryContracts;
 
 namespace InMemoryRepositories;
 
-public class CommentInMemoryRepository(List<Comment> comments) : ICommentRepository
+public class CommentInMemoryRepository : ICommentRepository
 {
-    private List<Comment> comments = comments;
+    private List<Comment> comments = new();
 
+    public CommentInMemoryRepository()
+    {
+        DummyData();
+    }
+    
+    private Task DummyData()
+    {
+        AddAsync(new Comment(2, 2, "I hate it because you made it", DateTime.Now));
+        AddAsync(new Comment(4, 2, "I dont like that empty space", DateTime.Now));
+        AddAsync(new Comment(3, 2, "me too", DateTime.Now));
+        return Task.CompletedTask;
+    }
+    
     public Task<Comment> AddAsync(Comment comment)
     {
         comment.Id = comments.Any() ? comments.Max(c => c.Id) + 1 : 1;
