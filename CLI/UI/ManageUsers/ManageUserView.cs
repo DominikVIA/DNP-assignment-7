@@ -3,19 +3,17 @@ using RepositoryContracts;
 
 namespace CLI.UI.ManageUsers;
 
-public class ManageUserView (IUserRepository userRepo)
+public class ManageUserView
 {
     private CreateUserView createUserView;
     private ListUsersView listUsersView;
     private UpdateUserView updateUserView;
 
-    public Task StartAsync()
+    public ManageUserView(IUserRepository userRepo)
     {
         createUserView = new CreateUserView(userRepo);
         listUsersView = new ListUsersView(userRepo);
         updateUserView = new UpdateUserView(userRepo);
-        
-        return Task.CompletedTask;
     }
 
     public void Show()
@@ -37,11 +35,13 @@ public class ManageUserView (IUserRepository userRepo)
             int answer = readLine[0] - '0';
             string? username;
             string? password;
+            IQueryable<User> users;
+            int id;
             switch (answer)
             {
                 case 1:
                     Console.WriteLine("~~~~~~~~~~ Listing all users ~~~~~~~~~~");
-                    IQueryable<User> users = listUsersView.GetAllUsers();
+                    users = listUsersView.GetAllUsers();
                     foreach (var user in users)
                     {
                         Console.WriteLine(user.Id + " - " + user.Username + " " + user.Password);
@@ -86,21 +86,24 @@ public class ManageUserView (IUserRepository userRepo)
                     break; 
                 case 3:
                     Console.WriteLine("~~~~~~~~~~ Updating an existing user ~~~~~~~~~~");
-                    Console.Write("Old username: ");
-                    username = Console.ReadLine();
+                    
+                    users = listUsersView.GetAllUsers();
+                    foreach (var user in users)
+                    {
+                        Console.WriteLine(user.Id + " - " + user.Username + " " + user.Password);
+                    }
+                    Console.Write("Enter the ID of the user you want to update: ");
+                    id = Console.ReadLine()[0] - '0';
+                    
+                    User userToEdit = users.FirstOrDefault(u => u.Id == id);
+                    
                     try
                     {
+                        Console.Write("Enter new username: ");
+                        username = Console.ReadLine();
                         updateUserView.VerifyUsername(username);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        goto case 3;
-                    }
-                    Console.Write("Old password: ");
-                    password = Console.ReadLine();
-                    try
-                    {
+                        Console.Write("Enter new password: ");
+                        password = Console.ReadLine();
                         updateUserView.VerifyPassword(password);
                     }
                     catch (ArgumentException e)
@@ -109,34 +112,9 @@ public class ManageUserView (IUserRepository userRepo)
                         goto case 3;
                     }
                     
-                    Console.Write("New username: ");
-                    string? nUsername = Console.ReadLine();
                     try
                     {
-                        updateUserView.VerifyUsername(nUsername);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        goto case 3;
-                    }
-                    Console.Write("New password: ");
-                    string? nPassword = Console.ReadLine();
-                    try
-                    {
-                        updateUserView.VerifyPassword(nPassword);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        goto case 3;
-                    }
-                    
-                    User userToEdit;
-                    
-                    try
-                    {
-                        userToEdit = userRepo.GetSingleAsync(new User(username, password)).Result;
+                        updateUserView.UpdateUser(id, username, password);
                     }
                     catch (InvalidOperationException e)
                     {
@@ -144,45 +122,26 @@ public class ManageUserView (IUserRepository userRepo)
                         goto case 3;
                     }
                     
-                    User editedUser = new User(nUsername, nPassword);
-                    editedUser.Id = userToEdit.Id;
-                    userRepo.UpdateAsync(editedUser);
-                    
                     Console.WriteLine("~~~~~~~~~~ Successful user edit ~~~~~~~~~~" +
-                                      $"\nUser ID: {userToEdit.Id}" +
-                                      $"\nUsername: '{username}' -> '{nUsername}'" +
-                                      $"\nPassword: '{password}' -> '{nPassword}'" );
+                                      $"\nUsername: '{userToEdit.Username}' -> '{username}'" +
+                                      $"\nPassword: '{userToEdit.Password}' -> '{password}'" );
 
                     break;
                 case 4:
                     Console.WriteLine("~~~~~~~~~~ Deleting an existing user ~~~~~~~~~~");
-                    Console.Write("Username: ");
-                    username = Console.ReadLine();
+                    users = listUsersView.GetAllUsers();
+                    foreach (var user in users)
+                    {
+                        Console.WriteLine(user.Id + " - " + user.Username + " " + user.Password);
+                    }
+                    Console.Write("Enter the ID of the user you want to update: ");
+                    id = Console.ReadLine()[0] - '0';
+                    
+                    User userToDelete = users.FirstOrDefault(u => u.Id == id);
+                    
                     try
                     {
-                        updateUserView.VerifyUsername(username);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        goto case 4;
-                    }
-                    Console.Write("Password: ");
-                    password = Console.ReadLine();
-                    try
-                    {
-                        updateUserView.VerifyPassword(password);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        goto case 4;
-                    }
-
-                    User userToDelete;
-                    try
-                    {
-                        userToDelete = userRepo.GetSingleAsync(new User(username, password)).Result;
+                        updateUserView.DeleteUser(id);
                     }
                     catch (InvalidOperationException e)
                     {
@@ -190,12 +149,9 @@ public class ManageUserView (IUserRepository userRepo)
                         goto case 4;
                     }
                     
-                    userRepo.DeleteAsync(userToDelete.Id);
-                    
                     Console.WriteLine("~~~~~~~~~~ Successful user deletion ~~~~~~~~~~" +
-                                      $"\nUser ID: {userToDelete.Id}" +
-                                      $"\nUsername: '{username}'" +
-                                      $"\nPassword: '{password}'" );
+                                      $"\nUsername: '{userToDelete.Username}'" +
+                                      $"\nPassword: '{userToDelete.Password}'" );
 
                     break;
                 default:

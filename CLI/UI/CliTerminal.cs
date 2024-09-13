@@ -17,7 +17,6 @@ public class CliTerminal(
     public async Task<Task> StartAsync()
     {
         ManageUserView manageUserView = new ManageUserView(userRepo);
-        await manageUserView.StartAsync();
         manageUserView.Show();
 
         return Task.CompletedTask;
