@@ -27,17 +27,4 @@ public class UpdateUserView (IUserRepository userRepo)
         userRepo.UpdateAsync(userToEdit);
         return Task.CompletedTask;
     }
-    
-    public Task VerifyUsername(string? username)
-    {
-        if (username is null || username.Length == 0) throw new ArgumentException("Username cannot be blank.");
-        if(userRepo.GetMany().Any(u => u.Username.Equals(username))) throw new ArgumentException("Username already exists.");
-        return Task.CompletedTask;
-    }
-    
-    public Task VerifyPassword(string? password)
-    {
-        if (password is null || password.Length == 0) throw new ArgumentException("Password cannot be blank.");
-        return Task.CompletedTask;
-    }
 }

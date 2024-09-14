@@ -7,5 +7,5 @@ public class Post(
     DateTime dateCreated)
     : Content(authorId, body, dateCreated)
 {
-    public string Title { get; } = title;
+    public string Title { get; set; } = title;
 }

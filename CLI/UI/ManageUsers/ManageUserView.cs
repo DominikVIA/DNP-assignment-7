@@ -8,12 +8,14 @@ public class ManageUserView
     private CreateUserView createUserView;
     private ListUsersView listUsersView;
     private UpdateUserView updateUserView;
+    private UserInfoVerification infoVerification;
 
     public ManageUserView(IUserRepository userRepo)
     {
         createUserView = new CreateUserView(userRepo);
         listUsersView = new ListUsersView(userRepo);
         updateUserView = new UpdateUserView(userRepo);
+        infoVerification = new UserInfoVerification(userRepo);
     }
 
     public void Show()
@@ -30,13 +32,19 @@ public class ManageUserView
                               "\n4. Delete an existing user." +
                               "\n5. Go back to main menu.");
             string? readLine = Console.ReadLine();
-            if (readLine is null || readLine.Length != 1 || !readLine.All(char.IsDigit))
-                throw new ArgumentException("The provided string is invalid");
+            if (readLine is null || readLine.Length != 1 ||
+                !readLine.All(char.IsDigit))
+            {
+                Console.WriteLine("Please enter a number from one of the options seen above.");
+                Show();
+                return;
+            }
             int answer = readLine[0] - '0';
             string? username;
             string? password;
             IQueryable<User> users;
             int id;
+            string? readId;
             switch (answer)
             {
                 case 1:
@@ -49,35 +57,22 @@ public class ManageUserView
                     break;
                 case 2:
                     Console.WriteLine("~~~~~~~~~~ Creating new user ~~~~~~~~~~");
-                    Console.Write("Username: ");
-                    username = Console.ReadLine();
+
                     try
                     {
-                        if (!createUserView.VerifyUsername(username).Result)
-                        {
-                            Console.WriteLine("Username is already taken.");
-                            goto case 2;
-                        }
+                        Console.Write("Username: ");
+                        username = Console.ReadLine();
+                        infoVerification.VerifyUsername(username);
+                        Console.Write("Password: ");
+                        password = Console.ReadLine();
+                        infoVerification.VerifyPassword(password);
                     }
                     catch (ArgumentException e)
                     {
                         Console.WriteLine(e.Message);
                         goto case 2;
                     }
-                    Console.Write("Password: ");
-                    password = Console.ReadLine();
-                    try
-                    {
-                        if (createUserView.VerifyPassword(password).Result)
-                        {
-                            
-                        }
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        goto case 2;
-                    }
+
                     User newUser = createUserView.CreateUser(username, password).Result;
                     Console.WriteLine("~~~~~~~~~~ Successful user creation ~~~~~~~~~~" +
                                       $"\nUser ID: {newUser.Id}" +
@@ -93,18 +88,23 @@ public class ManageUserView
                         Console.WriteLine(user.Id + " - " + user.Username + " " + user.Password);
                     }
                     Console.Write("Enter the ID of the user you want to update: ");
-                    id = Console.ReadLine()[0] - '0';
-                    
-                    User userToEdit = users.FirstOrDefault(u => u.Id == id);
-                    
+                    readId = Console.ReadLine();
+                    string oldUsername;
+                    string oldPassword;
+                        
                     try
                     {
+                        id = infoVerification.VerifyId(readId).Result;
                         Console.Write("Enter new username: ");
                         username = Console.ReadLine();
-                        updateUserView.VerifyUsername(username);
+                        infoVerification.VerifyUsername(username);
                         Console.Write("Enter new password: ");
                         password = Console.ReadLine();
-                        updateUserView.VerifyPassword(password);
+                        infoVerification.VerifyPassword(password);
+                        User tempUser = users.FirstOrDefault(u => u.Id == id);
+                        oldUsername = tempUser.Username;
+                        oldPassword = tempUser.Password;
+                        updateUserView.UpdateUser(id, username, password);
                     }
                     catch (ArgumentException e)
                     {
@@ -112,19 +112,9 @@ public class ManageUserView
                         goto case 3;
                     }
                     
-                    try
-                    {
-                        updateUserView.UpdateUser(id, username, password);
-                    }
-                    catch (InvalidOperationException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        goto case 3;
-                    }
-                    
                     Console.WriteLine("~~~~~~~~~~ Successful user edit ~~~~~~~~~~" +
-                                      $"\nUsername: '{userToEdit.Username}' -> '{username}'" +
-                                      $"\nPassword: '{userToEdit.Password}' -> '{password}'" );
+                                      $"\nUsername: '{oldUsername}' -> '{username}'" +
+                                      $"\nPassword: '{oldPassword}' -> '{password}'" );
 
                     break;
                 case 4:
@@ -135,12 +125,13 @@ public class ManageUserView
                         Console.WriteLine(user.Id + " - " + user.Username + " " + user.Password);
                     }
                     Console.Write("Enter the ID of the user you want to update: ");
-                    id = Console.ReadLine()[0] - '0';
-                    
-                    User userToDelete = users.FirstOrDefault(u => u.Id == id);
-                    
+                    readId = Console.ReadLine();
+
+                    User userToDelete;
                     try
                     {
+                        id = infoVerification.VerifyId(readId).Result;
+                        userToDelete = users.FirstOrDefault(u => u.Id == id);
                         updateUserView.DeleteUser(id);
                     }
                     catch (InvalidOperationException e)
@@ -152,7 +143,6 @@ public class ManageUserView
                     Console.WriteLine("~~~~~~~~~~ Successful user deletion ~~~~~~~~~~" +
                                       $"\nUsername: '{userToDelete.Username}'" +
                                       $"\nPassword: '{userToDelete.Password}'" );
-
                     break;
                 default:
                 {
