@@ -66,18 +66,6 @@ public class UserInMemoryRepository : IUserRepository
         
         return Task.FromResult(existingUser);
     }
-
-    public Task<User> GetSingleAsync(User user)
-    {
-        User? existingUser = users.SingleOrDefault(u => u.Username.Equals(user.Username) && u.Password.Equals(user.Password));
-        if (existingUser is null)
-        {
-            throw new InvalidOperationException(
-                $"User with the username '{user.Username}' and/or password '{user.Password}' does not exist");
-        }
-        
-        return Task.FromResult(existingUser);
-    }
     
     public IQueryable<User> GetMany()
     {

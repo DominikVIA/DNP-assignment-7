@@ -38,6 +38,21 @@
         "runtime": {
           "bin/placeholder/RepositoryContracts.dll": {}
         }
+      },
+      "RepositoryVerificationProxies/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Entities": "1.0.0",
+          "InMemoryRepositories": "1.0.0",
+          "RepositoryContracts": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RepositoryVerificationProxies.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RepositoryVerificationProxies.dll": {}
+        }
       }
     }
   },
@@ -56,13 +71,19 @@
       "type": "project",
       "path": "../RepositoryContracts/RepositoryContracts.csproj",
       "msbuildProject": "../RepositoryContracts/RepositoryContracts.csproj"
+    },
+    "RepositoryVerificationProxies/1.0.0": {
+      "type": "project",
+      "path": "../RepositoryVerificationProxies/RepositoryVerificationProxies.csproj",
+      "msbuildProject": "../RepositoryVerificationProxies/RepositoryVerificationProxies.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Entities >= 1.0.0",
       "InMemoryRepositories >= 1.0.0",
-      "RepositoryContracts >= 1.0.0"
+      "RepositoryContracts >= 1.0.0",
+      "RepositoryVerificationProxies >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -98,6 +119,9 @@
             },
             "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj": {
               "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj"
+            },
+            "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj": {
+              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj"
             }
           }
         }

@@ -19,7 +19,7 @@ public class UpdatePostView (IPostRepository postRepo)
             postToEdit = postRepo.GetSingleAsync(id).Result;
         }
         catch(InvalidOperationException e)       {
-            throw new InvalidOperationException(e.Message);
+            throw new ArgumentException(e.Message);
         }
 
         postToEdit.Title = title;

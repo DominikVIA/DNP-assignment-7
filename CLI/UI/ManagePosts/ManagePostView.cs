@@ -8,14 +8,12 @@ public class ManagePostView
     private CreatePostView createPostView;
     private ListPostsView listPostsView;
     private UpdatePostView updatePostView;
-    private PostInfoVerification postInfoVerification;
 
     public ManagePostView(IPostRepository postRepo)
     {
         createPostView = new CreatePostView(postRepo);
         listPostsView = new ListPostsView(postRepo);
         updatePostView = new UpdatePostView(postRepo);
-        postInfoVerification = new PostInfoVerification(postRepo);
     }
 
     public void Show()
@@ -45,9 +43,7 @@ public class ManagePostView
             string? body;
             IQueryable<Post> posts = listPostsView.GetAllPosts();
             int id;
-            int authorId = 1;
-            string? readId;
-            string? readAuthorId;
+            int authorId;
             switch (answer)
             {
                 case 1:
@@ -66,17 +62,15 @@ public class ManagePostView
                         Console.WriteLine(post.Title + " (" + post.Id + ")");
                     }
                     Console.WriteLine("Enter the id of the post you want to fully display: ");
-                    readId = Console.ReadLine();
-                    try
-                    {
-                        id = postInfoVerification.VerifyId(readId).Result;
-                    }
-                    catch (AggregateException e)
-                    {
-                        Console.WriteLine(e);
-                        goto case 2;
+                    readLine = Console.ReadLine();
+
+                    if (readLine is null || readLine.Equals("") || readLine.Contains(' ') || !readLine.All(char.IsDigit)) 
+                    { 
+                        Console.WriteLine("ID cannot be blank and it must be a number."); 
+                        break;
                     }
 
+                    id = int.Parse(readLine);
                     Post gottenPost = listPostsView.GetPost(id).Result;
                     
                     Console.WriteLine($"ID: {gottenPost.Id}"+
@@ -91,26 +85,33 @@ public class ManagePostView
                     break;
                 case 3:
                     Console.WriteLine("~~~~~~~~~~ Creating new post ~~~~~~~~~~");
+                    
+                    Console.WriteLine("Enter the ID of the user creating the post: ");
+                    readLine = Console.ReadLine();
+                    if (readLine is null || readLine.Equals("") || readLine.Contains(' ') || !readLine.All(char.IsDigit)) 
+                    { 
+                        Console.WriteLine("ID cannot be blank and it must be a number."); 
+                        break;
+                    }
+                    authorId = int.Parse(readLine);
+                    
+                    Console.Write("Title: ");
+                    title = Console.ReadLine();
+                    
+                    Console.Write("Post's text: ");
+                    body = Console.ReadLine();
 
+                    Post newPost;
                     try
                     {
-                        Console.WriteLine("Enter the ID of the user creating the post: ");
-                        readAuthorId = Console.ReadLine();
-                        
-                        Console.Write("Title: ");
-                        title = Console.ReadLine();
-                        postInfoVerification.VerifyTitle(title);
-                        Console.Write("Post's text: ");
-                        body = Console.ReadLine();
-                        postInfoVerification.VerifyBody(body);
+                        newPost = createPostView.CreatePost(authorId, title, body).Result;
                     }
-                    catch (ArgumentException e)
+                    catch (InvalidOperationException e)
                     {
                         Console.WriteLine(e.Message);
-                        goto case 3;
+                        break;
                     }
                     
-                    Post newPost = createPostView.CreatePost(authorId, title, body).Result;
                     Console.WriteLine("~~~~~~~~~~ Successful post creation ~~~~~~~~~~" +
                                       $"\nPost ID: {newPost.Id}" +
                                       $"\nPostname: '{title}'" +
@@ -125,28 +126,37 @@ public class ManagePostView
                         Console.WriteLine(post.Title + " (" + post.Id + ")");
                     }
                     Console.Write("Enter the ID of the post you want to update: ");
-                    readId = Console.ReadLine();
+                    readLine = Console.ReadLine();
                     string oldTitle;
                     string oldBody;
+                    if (readLine is null || readLine.Equals("") || readLine.Contains(' ') || !readLine.All(char.IsDigit)) 
+                    { 
+                        Console.WriteLine("ID cannot be blank and it must be a number."); 
+                        break;
+                    }
                         
+                    id = int.Parse(readLine);
+                    Post tempPost = posts.FirstOrDefault(u => u.Id == id);
+                    if (tempPost is null)
+                    {
+                        Console.WriteLine($"Post with id '{id}' does not exist.");
+                        break;
+                    }
+                    Console.Write("Enter new title: ");
+                    title = Console.ReadLine();
+                    Console.Write("Enter new body: ");
+                    body = Console.ReadLine();
+
+                    oldTitle = tempPost.Title;
+                    oldBody = tempPost.Body;
                     try
                     {
-                        id = postInfoVerification.VerifyId(readId).Result;
-                        Console.Write("Enter new title: ");
-                        title = Console.ReadLine();
-                        postInfoVerification.VerifyTitle(title);
-                        Console.Write("Enter new body: ");
-                        body = Console.ReadLine();
-                        postInfoVerification.VerifyBody(body);
-                        Post tempPost = posts.FirstOrDefault(u => u.Id == id);
-                        oldTitle = tempPost.Title;
-                        oldBody = tempPost.Body;
                         updatePostView.UpdatePost(id, title, body);
                     }
-                    catch (ArgumentException e)
+                    catch (InvalidOperationException e)
                     {
                         Console.WriteLine(e.Message);
-                        goto case 4;
+                        break;
                     }
                     
                     Console.WriteLine("~~~~~~~~~~ Successful post edit ~~~~~~~~~~" +
@@ -162,19 +172,24 @@ public class ManagePostView
                         Console.WriteLine(post.Title + " (" + post.Id + ")");
                     }
                     Console.Write("Enter the ID of the post you want to update: ");
-                    readId = Console.ReadLine();
-
-                    Post postToDelete;
+                    readLine = Console.ReadLine();
+                    
+                    if (readLine is null || readLine.Equals("") || readLine.Contains(' ') || !readLine.All(char.IsDigit)) 
+                    { 
+                        Console.WriteLine("ID cannot be blank and it must be a number."); 
+                        break;
+                    }
+                                            
+                    id = int.Parse(readLine);
+                    Post postToDelete = posts.FirstOrDefault(u => u.Id == id);
                     try
                     {
-                        id = postInfoVerification.VerifyId(readId).Result;
-                        postToDelete = posts.FirstOrDefault(u => u.Id == id);
                         updatePostView.DeletePost(id);
                     }
                     catch (InvalidOperationException e)
                     {
                         Console.WriteLine(e.Message);
-                        goto case 5;
+                        break;
                     }
                     
                     Console.WriteLine("~~~~~~~~~~ Successful post deletion ~~~~~~~~~~" +

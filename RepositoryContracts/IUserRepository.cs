@@ -8,7 +8,6 @@ public interface IUserRepository
     Task UpdateAsync(User user);
     Task DeleteAsync(int id);
     Task<User> GetSingleAsync(int id);
-    Task<User> GetSingleAsync(User user);
     IQueryable<User> GetMany();
 
 }

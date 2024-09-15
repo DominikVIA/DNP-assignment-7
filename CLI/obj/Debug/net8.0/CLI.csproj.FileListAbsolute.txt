@@ -21,3 +21,8 @@ C:\Users\domin\RiderProjects\Assignment_2\CLI\obj\Debug\net8.0\refint\CLI.dll
 C:\Users\domin\RiderProjects\Assignment_2\CLI\obj\Debug\net8.0\CLI.pdb
 C:\Users\domin\RiderProjects\Assignment_2\CLI\obj\Debug\net8.0\CLI.genruntimeconfig.cache
 C:\Users\domin\RiderProjects\Assignment_2\CLI\obj\Debug\net8.0\ref\CLI.dll
+C:\Users\domin\RiderProjects\Assignment_2\CLI\bin\Debug\net8.0\RepositoryVerificationProxies.deps.json
+C:\Users\domin\RiderProjects\Assignment_2\CLI\bin\Debug\net8.0\RepositoryVerificationProxies.runtimeconfig.json
+C:\Users\domin\RiderProjects\Assignment_2\CLI\bin\Debug\net8.0\RepositoryVerificationProxies.exe
+C:\Users\domin\RiderProjects\Assignment_2\CLI\bin\Debug\net8.0\RepositoryVerificationProxies.dll
+C:\Users\domin\RiderProjects\Assignment_2\CLI\bin\Debug\net8.0\RepositoryVerificationProxies.pdb

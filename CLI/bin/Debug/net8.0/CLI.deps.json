@@ -10,7 +10,8 @@
         "dependencies": {
           "Entities": "1.0.0",
           "InMemoryRepositories": "1.0.0",
-          "RepositoryContracts": "1.0.0"
+          "RepositoryContracts": "1.0.0",
+          "RepositoryVerificationProxies": "1.0.0"
         },
         "runtime": {
           "CLI.dll": {}
@@ -46,6 +47,19 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "RepositoryVerificationProxies/1.0.0": {
+        "dependencies": {
+          "Entities": "1.0.0",
+          "InMemoryRepositories": "1.0.0",
+          "RepositoryContracts": "1.0.0"
+        },
+        "runtime": {
+          "RepositoryVerificationProxies.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -66,6 +80,11 @@
       "sha512": ""
     },
     "RepositoryContracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RepositoryVerificationProxies/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
