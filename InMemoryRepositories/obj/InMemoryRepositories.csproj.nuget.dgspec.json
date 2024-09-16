@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj": {}
+    "/Users/joanhageneier/Documents/Assigment/InMemoryRepositories/InMemoryRepositories.csproj": {}
   },
   "projects": {
-    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
+    "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj",
+        "projectUniqueName": "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj",
-        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\obj\\",
+        "projectPath": "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj",
+        "packagesPath": "/Users/joanhageneier/.nuget/packages/",
+        "outputPath": "/Users/joanhageneier/Documents/Assigment/Entities/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/joanhageneier/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,21 +58,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj": {
+    "/Users/joanhageneier/Documents/Assigment/InMemoryRepositories/InMemoryRepositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj",
+        "projectUniqueName": "/Users/joanhageneier/Documents/Assigment/InMemoryRepositories/InMemoryRepositories.csproj",
         "projectName": "InMemoryRepositories",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj",
-        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\obj\\",
+        "projectPath": "/Users/joanhageneier/Documents/Assigment/InMemoryRepositories/InMemoryRepositories.csproj",
+        "packagesPath": "/Users/joanhageneier/.nuget/packages/",
+        "outputPath": "/Users/joanhageneier/Documents/Assigment/InMemoryRepositories/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/joanhageneier/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -84,11 +84,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj"
+              "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj": {
+                "projectPath": "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj"
               },
-              "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj"
+              "/Users/joanhageneier/Documents/Assigment/RepositoryContracts/RepositoryContracts.csproj": {
+                "projectPath": "/Users/joanhageneier/Documents/Assigment/RepositoryContracts/RepositoryContracts.csproj"
               }
             }
           }
@@ -123,21 +123,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj": {
+    "/Users/joanhageneier/Documents/Assigment/RepositoryContracts/RepositoryContracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj",
+        "projectUniqueName": "/Users/joanhageneier/Documents/Assigment/RepositoryContracts/RepositoryContracts.csproj",
         "projectName": "RepositoryContracts",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj",
-        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\obj\\",
+        "projectPath": "/Users/joanhageneier/Documents/Assigment/RepositoryContracts/RepositoryContracts.csproj",
+        "packagesPath": "/Users/joanhageneier/.nuget/packages/",
+        "outputPath": "/Users/joanhageneier/Documents/Assigment/RepositoryContracts/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/joanhageneier/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -149,8 +149,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj"
+              "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj": {
+                "projectPath": "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj"
               }
             }
           }
@@ -185,7 +185,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
