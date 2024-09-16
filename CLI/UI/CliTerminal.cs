@@ -1,4 +1,5 @@
-﻿using CLI.UI.ManagePosts;
+﻿using CLI.UI.ManageComments;
+using CLI.UI.ManagePosts;
 using CLI.UI.ManageUsers;
 using RepositoryContracts;
 
@@ -13,10 +14,10 @@ public class CliTerminal(
 {
     private readonly ManageUserView manageUserView = new ManageUserView(userRepo);
     private readonly ManagePostView managePostView = new ManagePostView(postRepo);
-    private readonly ICommentRepository commentRepo = commentRepo;
+    private readonly ManageCommentsView manageCommentsView = new ManageCommentsView(commentRepo);
     private readonly IReactionRepository reactionRepo = reactionRepo;
 
-    public Task StartAsync()
+    public async Task StartAsync()
     {
         bool finished = false;
         do
@@ -27,7 +28,7 @@ public class CliTerminal(
             {
                 Console.WriteLine("Please enter a number from one of the options seen above.");
                 StartAsync();
-                return Task.CompletedTask;
+                return;
             }
             int answer = int.Parse(readLine);
             switch (answer)
@@ -38,13 +39,14 @@ public class CliTerminal(
                 case 2: 
                     managePostView.Show();
                     break;
+                case 3: 
+                    await manageCommentsView.Show();
+                    break;
                 default:
                     finished = true;
                     break;
             }
         }
         while(!finished);
-
-        return Task.CompletedTask;
     }
 }

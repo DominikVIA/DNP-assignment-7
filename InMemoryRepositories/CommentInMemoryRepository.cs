@@ -32,7 +32,7 @@ public class CommentInMemoryRepository : ICommentRepository
         Comment? existingComment = comments.SingleOrDefault(c => c.Id == comment.Id);
         if (existingComment is null)
         {
-            throw new InvalidOperationException(
+            throw new ArgumentException(
                 $"Comment with ID '{comment.Id}' does not exist");
         }
         comments.Remove(existingComment);
@@ -46,7 +46,7 @@ public class CommentInMemoryRepository : ICommentRepository
         Comment? existingComment = comments.SingleOrDefault(c => c.Id == id);
         if (existingComment is null)
         {
-            throw new InvalidOperationException(
+            throw new ArgumentException(
                 $"Comment with ID '{id}' does not exist");
         }
         comments.Remove(existingComment);
@@ -59,7 +59,7 @@ public class CommentInMemoryRepository : ICommentRepository
         Comment? existingComment = comments.SingleOrDefault(c => c.Id == id);
         if (existingComment is null)
         {
-            throw new InvalidOperationException(
+            throw new ArgumentException(
                 $"Comment with ID '{id}' does not exist");
         }
         

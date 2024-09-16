@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj": {}
+    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {}
   },
   "projects": {
-    "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj": {
+    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj",
+        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "/Users/joanhageneier/Documents/Assigment/Entities/Entities.csproj",
-        "packagesPath": "/Users/joanhageneier/.nuget/packages/",
-        "outputPath": "/Users/joanhageneier/Documents/Assigment/Entities/obj/",
+        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj",
+        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/joanhageneier/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
