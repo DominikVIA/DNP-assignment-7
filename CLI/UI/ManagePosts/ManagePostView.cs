@@ -67,7 +67,7 @@ public class ManagePostView
         while(!finished);
     }
 
-    private async Task ListAllPosts()
+    private Task ListAllPosts()
     {
         Console.WriteLine("~~~~~~~~~~ Listing all posts ~~~~~~~~~~");
         IQueryable<Post> posts = listPostsView.GetAllPosts();
@@ -75,6 +75,7 @@ public class ManagePostView
         {
             Console.WriteLine(post.Title + " (" + post.Id + ")");
         }
+        return Task.CompletedTask;
     }
 
     private async Task ListPostInformation()
@@ -96,13 +97,12 @@ public class ManagePostView
                           $"\nWritten by: {gottenPost.AuthorId}" +
                           $"\nTitle: {gottenPost.Title}" +
                           $"\nBody: \n{gottenPost.Body}" +
-                          $"\nLikes: {gottenPost.Likes.Count}" +
-                          $"\nDislikes: {gottenPost.Dislikes.Count}" +
+                          $"\nLikes: {gottenPost.Reactions.Count}" +
                           $"\nCreated on: {gottenPost.DateCreated}"
         );
     }
 
-    private async Task CreatePost()
+    private Task CreatePost()
     {
         Console.WriteLine("~~~~~~~~~~ Creating new post ~~~~~~~~~~");
                     
@@ -111,7 +111,7 @@ public class ManagePostView
         if (string.IsNullOrEmpty(readLine) || !int.TryParse(readLine, out int id)) 
         { 
             Console.WriteLine("ID cannot be blank and it must be a number."); 
-            return;
+            return Task.CompletedTask;
         }
         id = int.Parse(readLine);
                     
@@ -129,13 +129,14 @@ public class ManagePostView
         catch (InvalidOperationException e)
         {
             Console.WriteLine(e.Message);
-            return;
+            return Task.CompletedTask;
         }
                     
         Console.WriteLine("~~~~~~~~~~ Successful post creation ~~~~~~~~~~" +
                           $"\nPost ID: {newPost.Id}" +
                           $"\nTitle: '{title}'" +
                           $"\nBody: '{body}'" );
+        return Task.CompletedTask;
     }
 
     private async Task UpdatePost()
@@ -167,7 +168,7 @@ public class ManagePostView
         var oldBody = tempPost.Body;
         try
         {
-            updatePostView.UpdatePost(id, title, body);
+            await updatePostView.UpdatePost(id, title, body);
         }
         catch (InvalidOperationException e)
         {

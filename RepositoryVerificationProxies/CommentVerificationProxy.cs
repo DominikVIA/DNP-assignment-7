@@ -6,7 +6,7 @@ namespace RepositoryVerificationProxies
 {
     public class CommentVerificationProxy : ICommentRepository
     {
-        private static CommentInMemoryRepository? commentRepo;
+        private static CommentInMemoryRepository commentRepo;
 
         public CommentVerificationProxy(CommentInMemoryRepository commentRepo)
         {

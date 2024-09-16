@@ -9,4 +9,5 @@ public interface IPostRepository
     Task DeleteAsync(int id);
     Task<Post> GetSingleAsync(int id);
     IQueryable<Post> GetMany();
+    // static abstract void AddReaction(Reaction reaction, int postId);
 }

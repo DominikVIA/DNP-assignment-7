@@ -14,10 +14,10 @@ public class ReactionInMemoryRepository : IReactionRepository
     
     private Task DummyData()
     {
-        AddAsync(new Reaction(1, 2, false, true, DateTime.Now));
-        AddAsync(new Reaction(2, 1, true, false, DateTime.Now));
-        AddAsync(new Reaction(3, 3, false, true, DateTime.Now));
-        AddAsync(new Reaction(4, 4, true, false, DateTime.Now));
+        AddAsync(new Reaction(1, 2, false, DateTime.Now));
+        AddAsync(new Reaction(2, 1, true, DateTime.Now));
+        AddAsync(new Reaction(3, 3, false, DateTime.Now));
+        AddAsync(new Reaction(4, 4, true, DateTime.Now));
         return Task.CompletedTask;
     }
 
@@ -33,7 +33,7 @@ public class ReactionInMemoryRepository : IReactionRepository
         Reaction? existingReaction = reactions.SingleOrDefault(r => r.Id == reaction.Id);
         if (existingReaction is null)
         {
-            throw new InvalidOperationException(
+            throw new ArgumentException(
                 $"Reaction with ID '{reaction.Id}' does not exist");
         }
         reactions.Remove(existingReaction);
@@ -47,7 +47,7 @@ public class ReactionInMemoryRepository : IReactionRepository
         Reaction? existingReaction = reactions.SingleOrDefault(r => r.Id == id);
         if (existingReaction is null)
         {
-            throw new InvalidOperationException(
+            throw new ArgumentException(
                 $"Reaction with ID '{id}' does not exist");
         }
         reactions.Remove(existingReaction);
@@ -60,7 +60,7 @@ public class ReactionInMemoryRepository : IReactionRepository
         Reaction? existingReaction = reactions.SingleOrDefault(r => r.Id == id);
         if (existingReaction is null)
         {
-            throw new InvalidOperationException(
+            throw new ArgumentException(
                 $"Reaction with ID '{id}' does not exist");
         }
         

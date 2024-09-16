@@ -1,5 +1,6 @@
 ﻿using CLI.UI.ManageComments;
 using CLI.UI.ManagePosts;
+using CLI.UI.ManageReaction;
 using CLI.UI.ManageUsers;
 using RepositoryContracts;
 
@@ -12,25 +13,27 @@ public class CliTerminal(
     IReactionRepository reactionRepo
     )
 {
-    private readonly ManageUserView manageUserView = new ManageUserView(userRepo);
-    private readonly ManagePostView managePostView = new ManagePostView(postRepo);
-    private readonly ManageCommentsView manageCommentsView = new ManageCommentsView(commentRepo);
-    private readonly IReactionRepository reactionRepo = reactionRepo;
+    private readonly ManageUserView manageUserView = new(userRepo);
+    private readonly ManagePostView managePostView = new(postRepo);
+    private readonly ManageCommentsView manageCommentsView = new(commentRepo);
+    private readonly ManageReactionView manageReactionView = new(reactionRepo);
 
     public async Task StartAsync()
     {
         bool finished = false;
         do
         {
+            Console.Clear();
+            Console.WriteLine("Welcome to the main menu, please choose one of the following options: " +
+                              "\n 1. Manage users, \n 2. Manage posts, \n 3. Manage comments, \n 4. Manage reactions");
             string? readLine = Console.ReadLine();
-            if (readLine is null || readLine.Length != 1 ||
-                !readLine.All(char.IsDigit))
+            if (string.IsNullOrEmpty(readLine) || !int.TryParse(readLine, out int answer))
             {
                 Console.WriteLine("Please enter a number from one of the options seen above.");
                 StartAsync();
                 return;
             }
-            int answer = int.Parse(readLine);
+            answer = int.Parse(readLine);
             switch (answer)
             {
                 case 1:
@@ -41,6 +44,9 @@ public class CliTerminal(
                     break;
                 case 3: 
                     await manageCommentsView.Show();
+                    break;
+                case 4: 
+                    await manageReactionView.Show();
                     break;
                 default:
                     finished = true;

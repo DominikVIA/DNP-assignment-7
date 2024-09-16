@@ -6,7 +6,7 @@ namespace RepositoryVerificationProxies;
 
 public class UserVerificationProxy : IUserRepository
 {
-    private static UserInMemoryRepository? userRepo;
+    private static UserInMemoryRepository userRepo;
 
     public UserVerificationProxy(UserInMemoryRepository userRepo)
     {
@@ -36,28 +36,28 @@ public class UserVerificationProxy : IUserRepository
         return Task.CompletedTask;
     }
 
-    public Task<User> AddAsync(User user)
+    public async Task<User> AddAsync(User user)
     {
-        VerifyUsername(user.Username);
-        VerifyPassword(user.Password);
-        return userRepo.AddAsync(user);
+        await VerifyUsername(user.Username);
+        await VerifyPassword(user.Password);
+        return await userRepo.AddAsync(user);
     }
 
-    public Task UpdateAsync(User user)
+    public async Task UpdateAsync(User user)
     {
-        VerifyUsername(user.Username);
-        VerifyPassword(user.Password);
-        return userRepo.UpdateAsync(user);
+        await VerifyUsername(user.Username);
+        await VerifyPassword(user.Password);
+        await userRepo.UpdateAsync(user);
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        return userRepo.DeleteAsync(VerifyUserId(id).Result);
+        await userRepo.DeleteAsync(VerifyUserId(id).Result);
     }
 
-    public Task<User> GetSingleAsync(int id)
+    public async Task<User> GetSingleAsync(int id)
     {
-        return userRepo.GetSingleAsync(VerifyUserId(id).Result);
+        return await userRepo.GetSingleAsync(VerifyUserId(id).Result);
     }
 
     public IQueryable<User> GetMany()

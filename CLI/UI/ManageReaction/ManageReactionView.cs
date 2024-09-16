@@ -6,18 +6,18 @@ namespace CLI.UI.ManageReaction;
 public class ManageReactionView
 {
     private CreateReactionView createReactionView;
-    private ListReactionsView listReacionsView;
-    private UpdateReactionView updateReacionView;
+    private ListReactionsView listReactionsView;
+    private UpdateReactionView updateReactionView;
     
     
     public ManageReactionView(IReactionRepository reactRepo)
     {
         createReactionView = new CreateReactionView(reactRepo);
-        listReacionsView = new ListReactionsView(reactRepo);
-        updateReacionView = new UpdateReactionView(reactRepo);
+        listReactionsView = new ListReactionsView(reactRepo);
+        updateReactionView = new UpdateReactionView(reactRepo);
     }
     
-    public void Show()
+    public async Task Show()
     {
         bool finished = false;
         Console.WriteLine("Welcome to managing reactions. ");
@@ -39,20 +39,18 @@ public class ManageReactionView
                 return;
             }
             int answer = readLine[0] - '0';
-            IQueryable<Reaction> reactions = listReacionsView.GetAllReactions();
-            int id;
             switch (answer)
             {
                 case 1:
-                    listAllreactions();
+                    await ListAllReactions();
                     break;
                 
                 case 2:
-                    createReaction();
+                    await CreateReaction();
                     break; 
                 
                 case 3:
-                    deleteReaction();
+                    await DeleteReaction();
                     break;
                 
                 default:
@@ -66,68 +64,67 @@ public class ManageReactionView
         while(!finished);
     }
 
-    public void listAllreactions()
+    private Task ListAllReactions()
     {
-        IQueryable<Reaction> reactions = listReacionsView.GetAllReactions();
         Console.WriteLine("~~~~~~~~~~ Listing all reactions ~~~~~~~~~~");
-        reactions = listReacionsView.GetAllReactions();
+        IQueryable<Reaction> reactions = listReactionsView.GetAllReactions();
         foreach (var reaction in reactions)
         {
             Console.WriteLine("Reaction " + reaction.Id + ": " + "Content: " + 
-                              reaction.ContentId + ", User: " + reaction.UserId);
+                              reaction.ContentId + ", User: " + reaction.UserId +
+                              (reaction.Like ? ", Like" : ", Dislike"));
         }
+        return Task.CompletedTask;
     }
 
-    public void createReaction()
+    private Task CreateReaction()
     {
-        IQueryable<Reaction> reactions = listReacionsView.GetAllReactions();
-        int userId;
-        int contentId;
         bool like;
-        bool dislike;
         Console.WriteLine("~~~~~~~~~~ Create new reaction ~~~~~~~~~~");
                     
         Console.WriteLine("Enter the ID of user reacting: ");
-        userId = Convert.ToInt32(Console.ReadLine());
+        var userId = Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("Enter the ID of the content you are reacting to: ");
-        contentId = Convert.ToInt32(Console.ReadLine());
+        var contentId = Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("Press 1 for like or 0 for dislike");
-        int likeOrDislike = Convert.ToInt32(Console.ReadLine());
+        var readLine = Console.ReadLine();
 
-        if (likeOrDislike == 1)
+        if (string.IsNullOrEmpty(readLine) || !int.TryParse(readLine, out int likeOrDislike))
         {
-            like = true;
-            dislike = false;
-        } 
-        else if (likeOrDislike == 0)
-        {
-            like = false;
-            dislike = true;
+            Console.WriteLine("ID cannot be blank and it must be a number.");
+            return Task.CompletedTask;
         }
+        likeOrDislike = int.Parse(readLine);
+
+        if (likeOrDislike is 1 or 0)
+        {
+            like = likeOrDislike == 1;
+        } 
         else
         {
             Console.WriteLine("Please enter 1 or 0 to react to the content");
-            Show();
-            return;
+            return Task.CompletedTask;
         }
                     
-        Reaction newReation = null;
+        Reaction newReaction;
         try
         {
-            newReation = createReactionView.CreateReaction(userId, contentId, like, dislike, DateTime.Now).Result;
+            newReaction = createReactionView.CreateReaction(userId, contentId, like, DateTime.Now).Result;
         }
-        catch (InvalidOperationException e)
+        catch (ArgumentException e)
         {
             Console.WriteLine(e.Message);
+            return Task.CompletedTask;
         }
                     
         Console.WriteLine("~~~~~~~~~~ Successful reaction creation ~~~~~~~~~~" +
-                          $"\nReaction ID: {newReation.Id}");
+                          $"\nReaction ID: {newReaction.Id}");
+        return Task.CompletedTask;
     }
 
-    public void deleteReaction()
+    private Task DeleteReaction()
     {
-        IQueryable<Reaction> reactions = listReacionsView.GetAllReactions();
+        IQueryable<Reaction> reactions = listReactionsView.GetAllReactions();
         Console.WriteLine("~~~~~~~~~~ Delete an existing reaction ~~~~~~~~~~");
         
         foreach (var reaction in reactions)
@@ -138,23 +135,24 @@ public class ManageReactionView
         Console.Write("Enter the ID of the post you want to update: ");
         string? readLine = Console.ReadLine();
                     
-        if (readLine is null || readLine.Equals("") || readLine.Contains(' ') || !readLine.All(char.IsDigit)) 
+        if (string.IsNullOrEmpty(readLine) || !int.TryParse(readLine, out int id)) 
         { 
             Console.WriteLine("ID cannot be blank and it must be a number."); 
         }
                                             
-        int id = int.Parse(readLine);
+        id = int.Parse(readLine);
         Reaction reactionToDelete = reactions.FirstOrDefault(u => u.Id == id);
         try
         {
-            updateReacionView.DeleteReaction(id);
+            updateReactionView.DeleteReaction(id);
         }
-        catch (InvalidOperationException e)
+        catch (ArgumentException e)
         {
             Console.WriteLine(e.Message);
         }
                     
         Console.WriteLine("~~~~~~~~~~ Successful post deletion ~~~~~~~~~~" +
                           $"\nId: '{reactionToDelete.Id}'");
+        return Task.CompletedTask;
     }
 }
