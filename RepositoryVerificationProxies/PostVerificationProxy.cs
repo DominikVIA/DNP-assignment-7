@@ -1,14 +1,13 @@
 ﻿using Entities;
-using InMemoryRepositories;
 using RepositoryContracts;
 
 namespace RepositoryVerificationProxies;
 
 public class PostVerificationProxy : IPostRepository
 {
-    private static PostInMemoryRepository? postRepo;
+    private static IPostRepository postRepo;
 
-    public PostVerificationProxy(PostInMemoryRepository postRepo)
+    public PostVerificationProxy(IPostRepository postRepo)
     {
         PostVerificationProxy.postRepo = postRepo;
     }
@@ -17,7 +16,7 @@ public class PostVerificationProxy : IPostRepository
     {
         if (id is null) throw new InvalidOperationException("ID cannot be blank.");
         if(id < 0) throw new InvalidOperationException("ID cannot be less than zero.");
-        // if (!id.All(char.IsDigit)) throw new ArgumentException("ID must be a number.");
+        // if (!id.All(char.IsDigit)) throw new InvalidOperationException("ID must be a number.");
         if(!postRepo.GetMany().Any(p => p.Id == id)) throw new InvalidOperationException("Post with this ID does not exist.");
         return Task.FromResult((int) id);
     }
@@ -49,9 +48,9 @@ public class PostVerificationProxy : IPostRepository
         return postRepo.UpdateAsync(post);
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        return postRepo.DeleteAsync(VerifyPostId(id).Result);
+        await postRepo.DeleteAsync(await VerifyPostId(id));
     }
 
     public Task<Post> GetSingleAsync(int id)

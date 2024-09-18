@@ -24,40 +24,33 @@ public class ManageUserView
         {
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" +
                               "\nChoose the action you want to take:  " +
-                              "\n1. List users." +
-                              "\n2. Create a new user." +
-                              "\n3. Update an existing user." +
-                              "\n4. Delete an existing user." +
-                              "\n5. Go back to main menu.");
+                              "\n1 List users." +
+                              "\n2 Create a new user." +
+                              "\n3 Update an existing user." +
+                              "\n4 Delete an existing user." +
+                              "\n< Go back to main menu.");
             string? readLine = Console.ReadLine();
-            if (readLine is null || readLine.Length != 1 ||
-                !readLine.All(char.IsDigit))
+            switch (readLine)
             {
-                Console.WriteLine("Please enter a number from one of the options seen above.");
-                await Show();
-                return;
-            }
-            int answer = readLine[0] - '0';
-            switch (answer)
-            {
-                case 1:
+                case "1":
                     await ListAllUsers();
                     break;
-                case 2:
+                case "2":
                     await CreateUser();
                     break; 
-                case 3:
+                case "3":
                     await UpdateUser();
                     break;
-                case 4:
+                case "4":
                     await DeleteUser();
                     break;
-                default:
-                {
+                case "<": 
                     Console.WriteLine("Going back to main menu");
                     finished = true;
                     break;
-                }
+                default:
+                    Console.WriteLine("Invalid input. Please choose one of the options above.");
+                    break;
             }
         }
         while(!finished);
@@ -86,9 +79,10 @@ public class ManageUserView
         {
             newUser = createUserView.CreateUser(username, password).Result;
         }
-        catch (InvalidOperationException e)
+        catch (AggregateException e)
         {
-            Console.WriteLine(e.Message);
+            foreach (var exception in e.InnerExceptions)
+                Console.WriteLine(exception.Message);
             return;
         }
 
@@ -127,11 +121,12 @@ public class ManageUserView
                     
         try
         {
-            updateUserView.UpdateUser(id, username, password);
+            await updateUserView.UpdateUser(id, username, password);
         }
-        catch (InvalidOperationException e)
+        catch (AggregateException e)
         {
-            Console.WriteLine(e.Message);
+            foreach (var exception in e.InnerExceptions)
+                Console.WriteLine(exception.Message);
             return;
         }
                     
@@ -144,7 +139,7 @@ public class ManageUserView
     {
         Console.WriteLine("~~~~~~~~~~ Deleting an existing user ~~~~~~~~~~");
         await ListAllUsers();
-        Console.Write("Enter the ID of the user you want to update: ");
+        Console.Write("Enter the ID of the user you want to delete: ");
         var readLine = Console.ReadLine();
                     
         if (string.IsNullOrEmpty(readLine) || !int.TryParse(readLine, out int id))
@@ -155,13 +150,19 @@ public class ManageUserView
                     
         id = int.Parse(readLine);
         var tempUser = listUsersView.GetAllUsers().FirstOrDefault(u => u.Id == id);
+        if (tempUser is null)
+        {
+            Console.WriteLine($"User with id '{id}' does not exist.");
+            return;
+        }
         try
         {
-            updateUserView.DeleteUser(id);
+            await updateUserView.DeleteUser(id);
         }
-        catch (InvalidOperationException e)
+        catch (AggregateException e)
         {
-            Console.WriteLine(e.Message);
+            foreach (var exception in e.InnerExceptions)
+                Console.WriteLine(exception.Message);
             return;
         }
                     

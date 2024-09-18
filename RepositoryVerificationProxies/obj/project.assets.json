@@ -12,18 +12,17 @@
           "bin/placeholder/Entities.dll": {}
         }
       },
-      "InMemoryRepositories/1.0.0": {
+      "FileRepositories/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "Entities": "1.0.0",
           "RepositoryContracts": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/InMemoryRepositories.dll": {}
+          "bin/placeholder/FileRepositories.dll": {}
         },
         "runtime": {
-          "bin/placeholder/InMemoryRepositories.dll": {}
+          "bin/placeholder/FileRepositories.dll": {}
         }
       },
       "RepositoryContracts/1.0.0": {
@@ -47,10 +46,10 @@
       "path": "../Entities/Entities.csproj",
       "msbuildProject": "../Entities/Entities.csproj"
     },
-    "InMemoryRepositories/1.0.0": {
+    "FileRepositories/1.0.0": {
       "type": "project",
-      "path": "../InMemoryRepositories/InMemoryRepositories.csproj",
-      "msbuildProject": "../InMemoryRepositories/InMemoryRepositories.csproj"
+      "path": "../FileRepositories/FileRepositories.csproj",
+      "msbuildProject": "../FileRepositories/FileRepositories.csproj"
     },
     "RepositoryContracts/1.0.0": {
       "type": "project",
@@ -61,7 +60,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "Entities >= 1.0.0",
-      "InMemoryRepositories >= 1.0.0",
+      "FileRepositories >= 1.0.0",
       "RepositoryContracts >= 1.0.0"
     ]
   },
@@ -71,11 +70,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj",
+      "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj",
       "projectName": "RepositoryVerificationProxies",
-      "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj",
+      "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj",
       "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\obj\\",
+      "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryVerificationProxies\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -90,14 +89,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
-              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj"
+            "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj": {
+              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj"
             },
-            "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj": {
-              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj"
+            "C:\\Users\\domin\\RiderProjects\\Assignment_3\\FileRepositories\\FileRepositories.csproj": {
+              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\FileRepositories\\FileRepositories.csproj"
             },
-            "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj": {
-              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj"
+            "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\RepositoryContracts.csproj": {
+              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\RepositoryContracts.csproj"
             }
           }
         }

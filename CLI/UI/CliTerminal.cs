@@ -2,6 +2,7 @@
 using CLI.UI.ManagePosts;
 using CLI.UI.ManageReaction;
 using CLI.UI.ManageUsers;
+using Entities;
 using RepositoryContracts;
 
 namespace CLI.UI;
@@ -23,33 +24,29 @@ public class CliTerminal(
         bool finished = false;
         do
         {
-            Console.Clear();
+            // Console.Clear();
             Console.WriteLine("Welcome to the main menu, please choose one of the following options: " +
-                              "\n 1. Manage users, \n 2. Manage posts, \n 3. Manage comments, \n 4. Manage reactions");
+                              "\n 1 Manage users, \n 2 Manage posts, \n 3 Manage comments, \n 4 Manage reactions, \n < Exit program");
             string? readLine = Console.ReadLine();
-            if (string.IsNullOrEmpty(readLine) || !int.TryParse(readLine, out int answer))
+            switch (readLine)
             {
-                Console.WriteLine("Please enter a number from one of the options seen above.");
-                StartAsync();
-                return;
-            }
-            answer = int.Parse(readLine);
-            switch (answer)
-            {
-                case 1:
-                    manageUserView.Show();
+                case "1":
+                    await manageUserView.Show();
                     break;
-                case 2: 
-                    managePostView.Show();
+                case "2": 
+                    await managePostView.Show();
                     break;
-                case 3: 
+                case "3": 
                     await manageCommentsView.Show();
                     break;
-                case 4: 
+                case "4": 
                     await manageReactionView.Show();
                     break;
-                default:
+                case "<":
                     finished = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid input. Please choose one of the options above.");
                     break;
             }
         }

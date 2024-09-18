@@ -5,10 +5,9 @@ namespace CLI.UI.ManageUsers;
 
 public class UpdateUserView (IUserRepository userRepo)
 {
-    public Task DeleteUser(int id)
+    public async Task DeleteUser(int id)
     {
-        userRepo.DeleteAsync(id);
-        return Task.CompletedTask;
+        await userRepo.DeleteAsync(id);
     }
     
     public Task UpdateUser(int id, string username, string password)

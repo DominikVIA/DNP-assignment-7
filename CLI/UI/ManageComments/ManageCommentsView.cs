@@ -24,42 +24,36 @@ namespace CLI.UI.ManageComments
             {
                 Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" +
                                   "\nChoose the action you want to take: " +
-                                  "\n1. List comments." +
-                                  "\n2. See all information about a comment." +
-                                  "\n3. Create a new comment." +
-                                  "\n4. Update an existing comment." +
-                                  "\n5. Delete an existing comment." +
-                                  "\n6. Go back to main menu.");
+                                  "\n1 List comments." +
+                                  "\n2 See all information about a comment." +
+                                  "\n3 Create a new comment." +
+                                  "\n4 Update an existing comment." +
+                                  "\n5 Delete an existing comment." +
+                                  "\n< Go back to main menu.");
                 string? readLine = Console.ReadLine();
-                if (string.IsNullOrEmpty(readLine) || !int.TryParse(readLine, out int answer))
+                switch (readLine)
                 {
-                    Console.WriteLine("Please enter a number from the options seen above.");
-                    continue;
-                }
-
-                switch (answer)
-                {
-                    case 1:
+                    case "1":
                         await ListCommentsAsync();
                         break;
-                    case 2:
+                    case "2":
                         await ViewCommentDetailsAsync();
                         break;
-                    case 3:
+                    case "3":
                         await CreateCommentAsync();
                         break;
-                    case 4:
+                    case "4":
                         await UpdateCommentAsync();
                         break;
-                    case 5:
+                    case "5":
                         await DeleteCommentAsync();
                         break;
-                    case 6:
+                    case "<":
                         Console.WriteLine("Going back to main menu.");
                         finished = true;
                         break;
                     default:
-                        Console.WriteLine("Invalid option. Please select from the menu.");
+                        Console.WriteLine("Invalid input. Please choose one of the options above.");
                         break;
                 }
             } while (!finished);
@@ -96,9 +90,9 @@ namespace CLI.UI.ManageComments
                                   $"\nBody: \n{comment.Body}" +
                                   $"\nCreated on: {comment.DateCreated}");
             }
-            catch (ArgumentException e)
+            catch (InvalidOperationException e)
             {
-                Console.WriteLine($"Error: {e.Message}");
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -132,9 +126,9 @@ namespace CLI.UI.ManageComments
                                   $"\nComment ID: {newComment.Id}" +
                                   $"\nBody: '{newComment.Body}'");
             }
-            catch (ArgumentException e)
+            catch (InvalidOperationException e)
             {
-                Console.WriteLine($"Error creating comment: {e.Message}");
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -155,7 +149,7 @@ namespace CLI.UI.ManageComments
             {
                 comment = await listCommentsView.GetComment(id);
             }
-            catch (ArgumentException e)
+            catch (InvalidOperationException e)
             {
                 Console.WriteLine(e.Message);
                 return;
@@ -176,9 +170,9 @@ namespace CLI.UI.ManageComments
                                   $"\nOld Body: '{comment.Body}'" +
                                   $"\nNew Body: '{newBody}'");
             }
-            catch (ArgumentException e)
+            catch (InvalidOperationException e)
             {
-                Console.WriteLine($"Error updating comment: {e.Message}");
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -194,22 +188,16 @@ namespace CLI.UI.ManageComments
                 return;
             }
 
-            var comment = await listCommentsView.GetComment(id);
-            if (comment == null)
-            {
-                Console.WriteLine($"Comment with ID '{id}' does not exist.");
-                return;
-            }
-
             try
             {
+                var comment = await listCommentsView.GetComment(id);
                 await updateCommentView.DeleteComment(id);
                 Console.WriteLine("~~~~~~~~~~ Successful comment deletion ~~~~~~~~~~" +
                                   $"\nDeleted Body: '{comment.Body}'");
             }
-            catch (ArgumentException e)
+            catch (InvalidOperationException e)
             {
-                Console.WriteLine($"Error deleting comment: {e.Message}");
+                Console.WriteLine(e.Message);
             }
         }
     }

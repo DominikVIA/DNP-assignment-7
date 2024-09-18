@@ -24,44 +24,37 @@ public class ManagePostView
         {
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" +
                               "\nChoose the action you want to take:  " +
-                              "\n1. List posts." +
-                              "\n2. See all information about a post." +
-                              "\n3. Create a new post." +
-                              "\n4. Update an existing post." +
-                              "\n5. Delete an existing post." +
-                              "\n6. Go back to main menu.");
+                              "\n1 List posts." +
+                              "\n2 See all information about a post." +
+                              "\n3 Create a new post." +
+                              "\n4 Update an existing post." +
+                              "\n5 Delete an existing post." +
+                              "\n< Go back to main menu.");
             string? readLine = Console.ReadLine();
-            if (readLine is null || readLine.Length != 1 ||
-                !readLine.All(char.IsDigit))
+            switch (readLine)
             {
-                Console.WriteLine("Please enter a number from one of the options seen above.");
-                await Show();
-                return;
-            }
-            int answer = readLine[0] - '0';
-            switch (answer)
-            {
-                case 1:
+                case "1":
                     await ListAllPosts();
                     break;
-                case 2:
+                case "2":
                     await ListPostInformation();
                     break;
-                case 3:
+                case "3":
                     await CreatePost();
                     break; 
-                case 4:
+                case "4":
                     await UpdatePost();
                     break;
-                case 5:
+                case "5":
                     await DeletePost();
                     break;
-                default:
-                {
+                case "<":
                     Console.WriteLine("Going back to main menu");
                     finished = true;
                     break;
-                }
+                default:
+                    Console.WriteLine("Invalid input. Please choose one of the options above.");
+                    break;
             }
         }
         while(!finished);
@@ -91,14 +84,26 @@ public class ManagePostView
         }
 
         id = int.Parse(readLine);
-        Post gottenPost = listPostsView.GetPost(id).Result;
-                    
-        Console.WriteLine($"ID: {gottenPost.Id}"+
-                          $"\nWritten by: {gottenPost.AuthorId}" +
-                          $"\nTitle: {gottenPost.Title}" +
-                          $"\nBody: \n{gottenPost.Body}" +
-                          $"\nLikes: {gottenPost.Reactions.Count}" +
-                          $"\nCreated on: {gottenPost.DateCreated}"
+        Post gottenPost;
+        try
+        {
+            gottenPost = await listPostsView.GetPost(id);
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine(e.Message);
+            return;
+        }
+        
+        
+        Console.WriteLine($"""
+                             ID: {gottenPost.Id}
+                             Written by: {gottenPost.AuthorId}
+                             Title: {gottenPost.Title}
+                             Body: 
+                             {gottenPost.Body}
+                             Created on: {gottenPost.DateCreated}
+                             """
         );
     }
 

@@ -1,14 +1,13 @@
 ﻿using Entities;
-using InMemoryRepositories;
 using RepositoryContracts;
 
 namespace RepositoryVerificationProxies;
 
 public class UserVerificationProxy : IUserRepository
 {
-    private static UserInMemoryRepository userRepo;
+    private static IUserRepository userRepo;
 
-    public UserVerificationProxy(UserInMemoryRepository userRepo)
+    public UserVerificationProxy(IUserRepository userRepo)
     {
         UserVerificationProxy.userRepo = userRepo;
     }
@@ -17,14 +16,14 @@ public class UserVerificationProxy : IUserRepository
     {
         if(id < 0) throw new InvalidOperationException("ID cannot be less than zero.");
         // if (!id.All(char.IsDigit)) throw new ArgumentException("ID must be a number.");
-        if(!userRepo.GetMany().Any(u => u.Id == id)) throw new InvalidOperationException("User with this ID does not exist.");
+        if (!userRepo.GetMany().Any(u => u.Id == id)) throw new InvalidOperationException("User with this ID does not exist.");
         return Task.FromResult(id);
     }
     
     private Task VerifyUsername(string? username)
     {
         if (username is null || username.Length == 0 || username.Equals("")) throw new InvalidOperationException("Username cannot be blank.");
-        if (username.Contains(' ')) throw new InvalidOperationException("Username cannot whitespaces.");
+        if (username.Contains(' ')) throw new InvalidOperationException("Username cannot contain whitespaces.");
         if(userRepo.GetMany().Any(u => u.Username.Equals(username))) throw new InvalidOperationException("Username already exists.");
         return Task.CompletedTask;
     }
@@ -52,7 +51,7 @@ public class UserVerificationProxy : IUserRepository
 
     public async Task DeleteAsync(int id)
     {
-        await userRepo.DeleteAsync(VerifyUserId(id).Result);
+        await userRepo.DeleteAsync(await VerifyUserId(id));
     }
 
     public async Task<User> GetSingleAsync(int id)

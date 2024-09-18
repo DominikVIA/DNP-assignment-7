@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj": {}
+    "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj": {}
   },
   "projects": {
-    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
+    "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj",
+        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj",
         "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\obj\\",
+        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -62,14 +62,14 @@
         }
       }
     },
-    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj": {
+    "C:\\Users\\domin\\RiderProjects\\Assignment_3\\FileRepositories\\FileRepositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj",
-        "projectName": "InMemoryRepositories",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj",
+        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\FileRepositories\\FileRepositories.csproj",
+        "projectName": "FileRepositories",
+        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\FileRepositories\\FileRepositories.csproj",
         "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\obj\\",
+        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\FileRepositories\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -84,11 +84,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj"
-              },
-              "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj"
+              "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\RepositoryContracts.csproj": {
+                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\RepositoryContracts.csproj"
               }
             }
           }
@@ -127,14 +124,14 @@
         }
       }
     },
-    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj": {
+    "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\RepositoryContracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj",
+        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\RepositoryContracts.csproj",
         "projectName": "RepositoryContracts",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj",
+        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\RepositoryContracts.csproj",
         "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\obj\\",
+        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -149,8 +146,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj"
+              "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj"
               }
             }
           }
@@ -189,14 +186,14 @@
         }
       }
     },
-    "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj": {
+    "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj",
+        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj",
         "projectName": "RepositoryVerificationProxies",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj",
+        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryVerificationProxies\\RepositoryVerificationProxies.csproj",
         "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryVerificationProxies\\obj\\",
+        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryVerificationProxies\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -211,14 +208,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\Entities\\Entities.csproj"
+              "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj"
               },
-              "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\InMemoryRepositories\\InMemoryRepositories.csproj"
+              "C:\\Users\\domin\\RiderProjects\\Assignment_3\\FileRepositories\\FileRepositories.csproj": {
+                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\FileRepositories\\FileRepositories.csproj"
               },
-              "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_2\\RepositoryContracts\\RepositoryContracts.csproj"
+              "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\RepositoryContracts.csproj": {
+                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\RepositoryContracts\\RepositoryContracts.csproj"
               }
             }
           }

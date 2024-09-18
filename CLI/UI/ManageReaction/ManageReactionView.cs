@@ -25,38 +25,33 @@ public class ManageReactionView
         {
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" +
                               "\nChoose the action you want to take:  " +
-                              "\n1. List reactions." +
-                              "\n2. Create a new reaction." +
-                              //"\n3. Update an existing post." +
-                              "\n3. Delete an existing reaction." +
-                              "\n4. Go back to main menu.");
+                              "\n1 List reactions." +
+                              "\n2 Create a new reaction." +
+                              "\n3 Delete an existing reaction." +
+                              "\n< Go back to main menu.");
             string? readLine = Console.ReadLine();
-            if (readLine is null || readLine.Length != 1 ||
-                !readLine.All(char.IsDigit))
+            switch (readLine)
             {
-                Console.WriteLine("Please enter a number from one of the options seen above.");
-                Show();
-                return;
-            }
-            int answer = readLine[0] - '0';
-            switch (answer)
-            {
-                case 1:
+                case "1":
                     await ListAllReactions();
                     break;
                 
-                case 2:
+                case "2":
                     await CreateReaction();
                     break; 
                 
-                case 3:
+                case "3":
                     await DeleteReaction();
+                    break;
+                
+                case "<":
+                    Console.WriteLine("Going back to main menu");
+                    finished = true;
                     break;
                 
                 default:
                 {
-                    Console.WriteLine("Going back to main menu");
-                    finished = true;
+                    Console.WriteLine("Invalid input. Please choose one of the options above.");
                     break;
                 }
             }
@@ -111,9 +106,10 @@ public class ManageReactionView
         {
             newReaction = createReactionView.CreateReaction(userId, contentId, like, DateTime.Now).Result;
         }
-        catch (ArgumentException e)
+        catch (AggregateException e)
         {
-            Console.WriteLine(e.Message);
+            foreach (var exception in e.InnerExceptions)
+                Console.WriteLine(exception.Message);
             return Task.CompletedTask;
         }
                     
@@ -146,9 +142,10 @@ public class ManageReactionView
         {
             updateReactionView.DeleteReaction(id);
         }
-        catch (ArgumentException e)
+        catch (AggregateException e)
         {
-            Console.WriteLine(e.Message);
+            foreach (var exception in e.InnerExceptions)
+                Console.WriteLine(exception.Message);
         }
                     
         Console.WriteLine("~~~~~~~~~~ Successful post deletion ~~~~~~~~~~" +

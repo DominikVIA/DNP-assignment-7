@@ -5,10 +5,9 @@ namespace CLI.UI.ManagePosts;
 
 public class UpdatePostView (IPostRepository postRepo)
 {
-    public Task DeletePost(int id)
+    public async Task DeletePost(int id)
     {
-        postRepo.DeleteAsync(id);
-        return Task.CompletedTask;
+        await postRepo.DeleteAsync(id);
     }
     
     public Task UpdatePost(int id, string title, string body)
