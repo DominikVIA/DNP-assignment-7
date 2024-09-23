@@ -129,6 +129,11 @@ public class ManageUserView
                 Console.WriteLine(exception.Message);
             return;
         }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine(e.Message);
+            return;
+        }
                     
         Console.WriteLine("~~~~~~~~~~ Successful user edit ~~~~~~~~~~" +
                           $"\nUsername: '{oldUsername}' -> '{username}'" +
