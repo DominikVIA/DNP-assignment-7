@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj",
+      "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj",
       "projectName": "Entities",
-      "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\Entities.csproj",
+      "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj",
       "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_3\\Entities\\obj\\",
+      "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
