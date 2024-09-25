@@ -41,7 +41,8 @@ public class PostFileRepository : IPostRepository
     {
         string postsAsJson = await File.ReadAllTextAsync(filePath);
         List<Post> posts = JsonSerializer.Deserialize<List<Post>>(postsAsJson)!;
-        var temp = posts.First(u => u.Id == post.Id);
+        var temp = posts.SingleOrDefault(p => p.Id == post.Id);
+        if (temp is null) throw new KeyNotFoundException($"Post with the ID {post.Id} not found");
         posts.Remove(temp);
         posts.Add(post);
         postsAsJson = JsonSerializer.Serialize(posts);
@@ -52,7 +53,8 @@ public class PostFileRepository : IPostRepository
     {
         string postsAsJson = await File.ReadAllTextAsync(filePath);
         List<Post> posts = JsonSerializer.Deserialize<List<Post>>(postsAsJson)!;
-        var temp = posts.First(u => u.Id == id);
+        var temp = posts.SingleOrDefault(p => p.Id == id);
+        if (temp is null) throw new KeyNotFoundException($"Post with the ID {id} not found");
         posts.Remove(temp);
         postsAsJson = JsonSerializer.Serialize(posts);
         await File.WriteAllTextAsync(filePath, postsAsJson);
@@ -62,7 +64,8 @@ public class PostFileRepository : IPostRepository
     {
         string postsAsJson = await File.ReadAllTextAsync(filePath);
         List<Post> posts = JsonSerializer.Deserialize<List<Post>>(postsAsJson)!;
-        var temp = posts.First(u => u.Id == id);
+        var temp = posts.SingleOrDefault(u => u.Id == id);
+        if (temp is null) throw new KeyNotFoundException($"Post with the ID {id} not found");
         return temp;
     }
 

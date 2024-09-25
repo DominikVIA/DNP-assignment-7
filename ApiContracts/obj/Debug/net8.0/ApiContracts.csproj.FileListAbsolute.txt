@@ -1,0 +1,12 @@
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\bin\Debug\net8.0\ApiContracts.deps.json
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\bin\Debug\net8.0\ApiContracts.dll
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\bin\Debug\net8.0\ApiContracts.pdb
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\obj\Debug\net8.0\ApiContracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\obj\Debug\net8.0\ApiContracts.AssemblyInfoInputs.cache
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\obj\Debug\net8.0\ApiContracts.AssemblyInfo.cs
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\obj\Debug\net8.0\ApiContracts.csproj.CoreCompileInputs.cache
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\obj\Debug\net8.0\ApiContracts.sourcelink.json
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\obj\Debug\net8.0\ApiContracts.dll
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\obj\Debug\net8.0\refint\ApiContracts.dll
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\obj\Debug\net8.0\ApiContracts.pdb
+C:\Users\domin\RiderProjects\Assignment_4\ApiContracts\obj\Debug\net8.0\ref\ApiContracts.dll
