@@ -40,3 +40,4 @@ C:\Users\domin\RiderProjects\Assignment_4\WebApi\obj\Debug\net8.0\WebApi.pdb
 C:\Users\domin\RiderProjects\Assignment_4\WebApi\obj\Debug\net8.0\WebApi.genruntimeconfig.cache
 C:\Users\domin\RiderProjects\Assignment_4\WebApi\obj\Debug\net8.0\ref\WebApi.dll
 C:\Users\domin\RiderProjects\Assignment_4\WebApi\bin\Debug\net8.0\users.json
+C:\Users\domin\RiderProjects\Assignment_4\WebApi\bin\Debug\net8.0\posts.json

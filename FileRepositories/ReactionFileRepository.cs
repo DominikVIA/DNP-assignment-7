@@ -16,14 +16,6 @@ public class ReactionFileRepository : IReactionRepository
         }
     }
     
-    private async Task DummyData()
-    {
-        await AddAsync(new Reaction(1, 2, false, DateTime.Now));
-        await AddAsync(new Reaction(2, 1, true, DateTime.Now));
-        await AddAsync(new Reaction(3, 3, false, DateTime.Now));
-        await AddAsync(new Reaction(4, 4, true, DateTime.Now));
-    }
-    
     public async Task<Reaction> AddAsync(Reaction reaction)
     {
         string reactionsAsJson = await File.ReadAllTextAsync(filePath);
@@ -36,15 +28,22 @@ public class ReactionFileRepository : IReactionRepository
         return reaction;
     }
 
-    public async Task UpdateAsync(Reaction reaction)
+    public async Task<Reaction> UpdateAsync(Reaction reaction)
     {
         string reactionsAsJson = await File.ReadAllTextAsync(filePath);
         List<Reaction> reactions = JsonSerializer.Deserialize<List<Reaction>>(reactionsAsJson)!;
         var temp = reactions.First(u => u.Id == reaction.Id);
+        
+        if (temp is null) throw new KeyNotFoundException($"Post with the ID {reaction.Id} not found");
+        if(reaction.UserId == -1) reaction.UserId = temp.UserId;
+        if(reaction.ContentId == -1) reaction.ContentId = temp.ContentId;
+        if (reaction.DateCreated.Equals(DateTime.MinValue)) reaction.DateCreated = temp.DateCreated;
+        
         reactions.Remove(temp);
         reactions.Add(reaction);
         reactionsAsJson = JsonSerializer.Serialize(reactions);
         await File.WriteAllTextAsync(filePath, reactionsAsJson);
+        return reaction;
     }
 
     public async Task DeleteAsync(int id)

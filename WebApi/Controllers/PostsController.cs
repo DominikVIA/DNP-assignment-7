@@ -43,11 +43,32 @@ public class PostsController
         }
     }
     
-    // GET https://localhost:7065/Posts - gets all users
+    // GET https://localhost:7065/Posts - gets all comments
     [HttpGet]
     public IResult GetPosts()
     {
         IQueryable<Post> posts = postRepo.GetMany();
         return Results.Ok(posts);
+    }
+    
+    // PUT https://localhost:7065/Posts/{id}
+    [HttpPut("{id:int}")]
+    public async Task<IResult> UpdatePost([FromRoute] int id,
+        [FromBody] UpdatePostDto request)
+    {
+        Post post = new Post (-1, request.Title, request.Body, DateTime.MinValue)
+        {
+            Id = id,
+        };
+        post = await postRepo.UpdateAsync(post);
+        return Results.Created($"posts/{post.Id}", post);
+    }
+    
+    // DELETE https://localhost:7065/Posts/{id} - deletes a post with a given id
+    [HttpDelete("{id:int}")]
+    public async Task<IResult> DeletePost([FromRoute] int id)
+    {
+        await postRepo.DeleteAsync(id);
+        return Results.NoContent();
     }
 }

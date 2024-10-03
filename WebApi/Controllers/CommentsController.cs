@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApiContracts.Comments;
+using ApiContracts.Posts;
+using Entities;
+using Microsoft.AspNetCore.Mvc;
+using RepositoryContracts;
 
 namespace WebApi.Controllers;
 
@@ -6,5 +10,66 @@ namespace WebApi.Controllers;
 [Route("[controller]")]
 public class CommentsController
 {
+    private readonly ICommentRepository commentRepo;
+
+    public CommentsController(ICommentRepository commentRepo)
+    {
+        this.commentRepo = commentRepo;
+    }
     
+    // POST localhost:7065/Comments - creates a new comment
+    [HttpPost]
+    public async Task<IResult> CreateComment([FromBody] CreateCommentDto comment)
+    {
+        // verify that user with authorId exists
+        
+        Comment temp = new Comment(comment.AuthorId, comment.RespondingToId, comment.Body, DateTime.Now);
+        Comment result = await commentRepo.AddAsync(temp);
+        return Results.Created($"comments/{result.Id}", result);
+    }
+    
+    //GET https://localhost:7065/Comments/{id} - gets a single comment with given id
+    [HttpGet("{id:int}")]
+    public async Task<IResult> GetSingleComment([FromRoute] int id)
+    {
+        try
+        {
+            Comment result = await commentRepo.GetSingleAsync(id);
+            return Results.Ok(result);
+        }
+        catch (KeyNotFoundException e)
+        {
+            Console.WriteLine(e);
+            return Results.NotFound(e.Message);
+        }
+    }
+    
+    // GET https://localhost:7065/Comments - gets all comments
+    [HttpGet]
+    public IResult GetComments()
+    {
+        IQueryable<Comment> comments = commentRepo.GetMany();
+        return Results.Ok(comments);
+    }
+    
+    // PUT https://localhost:7065/Comments/{id}
+    [HttpPut("{id:int}")]
+    public async Task<IResult> UpdateComment([FromRoute] int id,
+        [FromBody] UpdateCommentDto request)
+    {
+        Comment comment = new Comment (-1, -1, request.Body, DateTime.MinValue)
+        {
+            Id = id,
+        };
+        comment = await commentRepo.UpdateAsync(comment);
+        return Results.Created($"comments/{comment.Id}", comment);
+    }
+    
+    // DELETE https://localhost:7065/Comments/{id} - deletes a comment with a given id
+    [HttpDelete("{id:int}")]
+    public async Task<IResult> DeleteComment([FromRoute] int id)
+    {
+        await commentRepo.DeleteAsync(id);
+        return Results.NoContent();
+    }
 }

@@ -16,13 +16,6 @@ public class CommentFileRepository : ICommentRepository
         }
     }
     
-    private async Task DummyData()
-    {
-        await AddAsync(new Comment(2, 2, "I hate it because you made it", DateTime.Now));
-        await AddAsync(new Comment(4, 2, "I dont like that empty space", DateTime.Now));
-        await AddAsync(new Comment(3, 2, "me too", DateTime.Now));
-    }
-    
     public async Task<Comment> AddAsync(Comment comment)
     {
         string commentsAsJson = await File.ReadAllTextAsync(filePath);
@@ -35,15 +28,22 @@ public class CommentFileRepository : ICommentRepository
         return comment;
     }
 
-    public async Task UpdateAsync(Comment comment)
+    public async Task<Comment> UpdateAsync(Comment comment)
     {
         string commentsAsJson = await File.ReadAllTextAsync(filePath);
         List<Comment> comments = JsonSerializer.Deserialize<List<Comment>>(commentsAsJson)!;
         var temp = comments.First(u => u.Id == comment.Id);
+        
+        if (temp is null) throw new KeyNotFoundException($"Post with the ID {comment.Id} not found");
+        if(comment.AuthorId == -1) comment.AuthorId = temp.AuthorId;
+        if(comment.RespondingToId == -1) comment.RespondingToId = temp.RespondingToId;
+        if (comment.DateCreated.Equals(DateTime.MinValue)) comment.DateCreated = temp.DateCreated;
+        
         comments.Remove(temp);
         comments.Add(comment);
         commentsAsJson = JsonSerializer.Serialize(comments);
         await File.WriteAllTextAsync(filePath, commentsAsJson);
+        return comment;
     }
 
     public async Task DeleteAsync(int id)

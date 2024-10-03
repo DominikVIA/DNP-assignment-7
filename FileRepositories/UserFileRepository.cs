@@ -16,14 +16,6 @@ public class UserFileRepository : IUserRepository
         }
     }
     
-    private async Task DummyData()
-    {
-        await AddAsync(new User("Maria", "Yepez"));
-        await AddAsync(new User("Joan", "Hageneier"));
-        await AddAsync(new User("Sebastian", "Villarroel"));
-        await AddAsync(new User("Dominik", "Kielbowski"));
-    }
-    
     public async Task<User> AddAsync(User user)
     {
         string usersAsJson = await File.ReadAllTextAsync(filePath);

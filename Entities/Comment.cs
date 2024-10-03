@@ -7,5 +7,5 @@ public class Comment(
     DateTime dateCreated)
     : Content(authorId, body, dateCreated)
 {
-    public int RespondingToId { get; } = respondingToId;
+    public int RespondingToId { get; set; } = respondingToId;
 }
