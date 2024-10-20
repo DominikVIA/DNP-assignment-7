@@ -28,13 +28,55 @@ public class CommentsController
         return Results.Created($"comments/{result.Id}", result);
     }
     
-    //GET https://localhost:7065/Comments/{id} - gets a single comment with given id
+    // //GET https://localhost:7065/Comments/{id} - gets a single comment with given id
+    // [HttpGet("{id:int}")]
+    // public async Task<IResult> GetSingleComment([FromRoute] int id)
+    // {
+    //     try
+    //     {
+    //         Comment result = await commentRepo.GetSingleAsync(id);
+    //         return Results.Ok(result);
+    //     }
+    //     catch (KeyNotFoundException e)
+    //     {
+    //         Console.WriteLine(e);
+    //         return Results.NotFound(e.Message);
+    //     }
+    // }
+    
+    //GET https://localhost:7065/Comments/{id}?includeAuthor=true&includeParentContent=true
+    // gets a single comment with given id and details
     [HttpGet("{id:int}")]
-    public async Task<IResult> GetSingleComment([FromRoute] int id)
+    public async Task<IResult> GetSingleComment(
+        [FromServices] IUserRepository userRepo,
+        [FromServices] IPostRepository postRepo,
+        [FromRoute] int id,
+        [FromQuery] bool includeAuthor,
+        [FromQuery] bool includeParentContent
+        )
     {
         try
         {
-            Comment result = await commentRepo.GetSingleAsync(id);
+            Comment temp = await commentRepo.GetSingleAsync(id);
+            CommentDto result = new CommentDto()
+            {
+                Id = temp.Id,
+                AuthorId = temp.AuthorId,
+                Body = temp.Body,
+                DateCreated = temp.DateCreated,
+                RespondingToId = temp.RespondingToId
+            };
+
+            if (includeAuthor)
+            {
+                result.Author = await userRepo.GetSingleAsync(temp.AuthorId);
+            }
+
+            if (includeParentContent)
+            {
+                result.RespondingTo = await postRepo.GetSingleAsync(temp.RespondingToId);
+            }
+            
             return Results.Ok(result);
         }
         catch (KeyNotFoundException e)

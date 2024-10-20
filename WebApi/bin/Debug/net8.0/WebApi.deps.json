@@ -66,6 +66,9 @@
         }
       },
       "ApiContracts/1.0.0": {
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
         "runtime": {
           "ApiContracts.dll": {
             "assemblyVersion": "1.0.0",

@@ -25,7 +25,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

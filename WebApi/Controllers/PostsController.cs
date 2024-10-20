@@ -27,14 +27,53 @@ public class PostsController
         return Results.Created($"posts/{result.Id}", result);
     }
     
-    //GET https://localhost:7065/Posts/{id} - gets a single post with given id
+    //GET https://localhost:7065/Posts/{id}?includeComment = true&includeAuthor = true&includeReactions = true
+    // gets a single post with given id and with given details
     [HttpGet("{id:int}")]
-    public async Task<IResult> GetSinglePost([FromRoute] int id)
+    public async Task<IResult> GetPostWithChoices(
+        [FromServices] IUserRepository userRepo,
+        [FromServices] ICommentRepository commentRepo,
+        [FromServices] IReactionRepository reactionRepo,
+        [FromRoute] int id,
+        [FromQuery] bool includeComments,
+        [FromQuery] bool includeAuthor,
+        [FromQuery] bool includeReactions
+        )
     {
         try
         {
-            Post result = await postRepo.GetSingleAsync(id);
-            return Results.Ok(result);
+            Post temp = await postRepo.GetSingleAsync(id);
+            PostDto gotten = new()
+            {
+                Id = temp.Id,
+                authorId = temp.AuthorId,
+                title = temp.Title,
+                body = temp.Body,
+                dateCreated = temp.DateCreated
+            };
+            
+            if (includeComments)
+            {
+                gotten.comments = commentRepo.GetMany()
+                    .Where(comment => comment.RespondingToId == temp.Id)
+                    .ToList();
+            }
+            
+            if (includeAuthor)
+            {
+                gotten.author = await userRepo.GetSingleAsync(temp.AuthorId);
+            }
+            
+            if (includeReactions)
+            {
+                IQueryable<Reaction> reactions = reactionRepo.GetMany()
+                    .Where(reaction => reaction.ContentId == temp.Id);
+                
+                gotten.likes = reactions.Count(reaction => reaction.Like);
+                gotten.dislikes = reactions.Count(reaction => !reaction.Like);
+            }
+            
+            return Results.Ok(gotten);
         }
         catch (KeyNotFoundException e)
         {

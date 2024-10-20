@@ -27,13 +27,54 @@ public class ReactionsController
         return Results.Created($"reactions/{result.Id}", result);
     }
     
+    // //GET https://localhost:7065/Reactions/{id} - gets a single reaction with given id
+    // [HttpGet("{id:int}")]
+    // public async Task<IResult> GetSingleReaction([FromRoute] int id)
+    // {
+    //     try
+    //     {
+    //         Reaction result = await reactionRepo.GetSingleAsync(id);
+    //         return Results.Ok(result);
+    //     }
+    //     catch (KeyNotFoundException e)
+    //     {
+    //         Console.WriteLine(e);
+    //         return Results.NotFound(e.Message);
+    //     }
+    // }
+    
     //GET https://localhost:7065/Reactions/{id} - gets a single reaction with given id
     [HttpGet("{id:int}")]
-    public async Task<IResult> GetSingleReaction([FromRoute] int id)
+    public async Task<IResult> GetSingleReaction(
+        [FromServices] IUserRepository userRepo,
+        [FromServices] IPostRepository postRepo,
+        [FromRoute] int id,
+        [FromQuery] bool includeUser,
+        [FromQuery] bool includePost
+        )
     {
         try
         {
-            Reaction result = await reactionRepo.GetSingleAsync(id);
+            Reaction temp = await reactionRepo.GetSingleAsync(id);
+            ReactionDto result = new ReactionDto()
+            {
+                Id = temp.Id,
+                UserId = temp.UserId,
+                ContentId = temp.ContentId,
+                Like = temp.Like,
+                DateCreated = temp.DateCreated
+            };
+
+            if (includeUser)
+            {
+                result.Author = await userRepo.GetSingleAsync(temp.UserId);
+            }
+            
+            if (includePost)
+            {
+                result.Content = await postRepo.GetSingleAsync(temp.ContentId);
+            }
+            
             return Results.Ok(result);
         }
         catch (KeyNotFoundException e)
