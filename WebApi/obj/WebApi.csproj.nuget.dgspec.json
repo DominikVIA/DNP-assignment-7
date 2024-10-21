@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\domin\\RiderProjects\\Assignment_4\\WebApi\\WebApi.csproj": {}
+    "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\domin\\RiderProjects\\Assignment_4\\ApiContracts\\ApiContracts.csproj": {
+    "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\ApiContracts\\ApiContracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\ApiContracts\\ApiContracts.csproj",
+        "projectUniqueName": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\ApiContracts\\ApiContracts.csproj",
         "projectName": "ApiContracts",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\ApiContracts\\ApiContracts.csproj",
-        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\ApiContracts\\obj\\",
+        "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\ApiContracts\\ApiContracts.csproj",
+        "packagesPath": "C:\\Users\\patty\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\ApiContracts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\patty\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj"
+              "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj"
               }
             }
           }
@@ -66,17 +66,17 @@
         }
       }
     },
-    "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj": {
+    "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj",
-        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\obj\\",
+        "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj",
+        "packagesPath": "C:\\Users\\patty\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\patty\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -124,17 +124,17 @@
         }
       }
     },
-    "C:\\Users\\domin\\RiderProjects\\Assignment_4\\FileRepositories\\FileRepositories.csproj": {
+    "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\FileRepositories\\FileRepositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\FileRepositories\\FileRepositories.csproj",
+        "projectUniqueName": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\FileRepositories\\FileRepositories.csproj",
         "projectName": "FileRepositories",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\FileRepositories\\FileRepositories.csproj",
-        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\FileRepositories\\obj\\",
+        "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\FileRepositories\\FileRepositories.csproj",
+        "packagesPath": "C:\\Users\\patty\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\FileRepositories\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\patty\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -146,8 +146,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\domin\\RiderProjects\\Assignment_4\\RepositoryContracts\\RepositoryContracts.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\RepositoryContracts\\RepositoryContracts.csproj"
+              "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\RepositoryContracts.csproj": {
+                "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\RepositoryContracts.csproj"
               }
             }
           }
@@ -186,17 +186,17 @@
         }
       }
     },
-    "C:\\Users\\domin\\RiderProjects\\Assignment_4\\RepositoryContracts\\RepositoryContracts.csproj": {
+    "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\RepositoryContracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\RepositoryContracts\\RepositoryContracts.csproj",
+        "projectUniqueName": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\RepositoryContracts.csproj",
         "projectName": "RepositoryContracts",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\RepositoryContracts\\RepositoryContracts.csproj",
-        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\RepositoryContracts\\obj\\",
+        "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\RepositoryContracts.csproj",
+        "packagesPath": "C:\\Users\\patty\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\patty\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -208,8 +208,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj"
+              "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj"
               }
             }
           }
@@ -248,17 +248,17 @@
         }
       }
     },
-    "C:\\Users\\domin\\RiderProjects\\Assignment_4\\WebApi\\WebApi.csproj": {
+    "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\WebApi\\WebApi.csproj",
+        "projectUniqueName": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\WebApi\\WebApi.csproj",
-        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\WebApi\\obj\\",
+        "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\WebApi\\WebApi.csproj",
+        "packagesPath": "C:\\Users\\patty\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\patty\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -270,17 +270,17 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\domin\\RiderProjects\\Assignment_4\\ApiContracts\\ApiContracts.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\ApiContracts\\ApiContracts.csproj"
+              "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\ApiContracts\\ApiContracts.csproj": {
+                "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\ApiContracts\\ApiContracts.csproj"
               },
-              "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj"
+              "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj"
               },
-              "C:\\Users\\domin\\RiderProjects\\Assignment_4\\FileRepositories\\FileRepositories.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\FileRepositories\\FileRepositories.csproj"
+              "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\FileRepositories\\FileRepositories.csproj": {
+                "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\FileRepositories\\FileRepositories.csproj"
               },
-              "C:\\Users\\domin\\RiderProjects\\Assignment_4\\RepositoryContracts\\RepositoryContracts.csproj": {
-                "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\RepositoryContracts\\RepositoryContracts.csproj"
+              "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\RepositoryContracts.csproj": {
+                "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\RepositoryContracts.csproj"
               }
             }
           }

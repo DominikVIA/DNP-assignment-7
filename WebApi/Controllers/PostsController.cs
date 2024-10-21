@@ -10,6 +10,7 @@ namespace WebApi.Controllers;
 public class PostsController
 {
     private readonly IPostRepository postRepo;
+    private readonly IUserRepository userRepo;
 
     public PostsController(IPostRepository postRepo)
     {
@@ -26,6 +27,32 @@ public class PostsController
         Post result = await postRepo.AddAsync(temp);
         return Results.Created($"posts/{result.Id}", result);
     }
+    
+    [HttpGet("ByAuthor")]
+    public async Task<IResult> GetPostsByAuthor(
+        [FromQuery] int? authorId,
+        [FromQuery] string? authorName)
+    {
+        IQueryable<Post> posts = postRepo.GetMany();
+
+        if (authorId.HasValue)
+        {
+            posts = posts.Where(p => p.AuthorId == authorId.Value);
+        }
+
+        if (!string.IsNullOrEmpty(authorName))
+        {
+            var users = userRepo.GetMany()
+                .Where(u => u.Username.Contains(authorName))
+                .ToList();
+
+            var userIds = users.Select(u => u.Id);
+            posts = posts.Where(p => userIds.Contains(p.AuthorId));
+        }
+
+        return Results.Ok(posts);
+    }
+
     
     //GET https://localhost:7065/Posts/{id}?includeComment = true&includeAuthor = true&includeReactions = true
     // gets a single post with given id and with given details
@@ -90,6 +117,16 @@ public class PostsController
         return Results.Ok(posts);
     }
     
+    [HttpGet("ByTitle")]
+    public IResult GetPostsByTitle([FromQuery] string titleContains)
+    {
+        IQueryable<Post> posts = postRepo.GetMany()
+            .Where(p => p.Title.Contains(titleContains));
+
+        return Results.Ok(posts);
+    }
+
+
     // PUT https://localhost:7065/Posts/{id}
     [HttpPut("{id:int}")]
     public async Task<IResult> UpdatePost([FromRoute] int id,

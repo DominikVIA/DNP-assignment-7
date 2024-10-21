@@ -11,6 +11,7 @@ namespace WebApi.Controllers;
 public class CommentsController
 {
     private readonly ICommentRepository commentRepo;
+    private readonly IUserRepository userRepo;
 
     public CommentsController(ICommentRepository commentRepo)
     {
@@ -93,6 +94,39 @@ public class CommentsController
         IQueryable<Comment> comments = commentRepo.GetMany();
         return Results.Ok(comments);
     }
+    [HttpGet("ByUserId")]
+    public IResult GetCommentsByUserId([FromQuery] int userId)
+    {
+        IQueryable<Comment> comments = commentRepo.GetMany()
+            .Where(c => c.AuthorId == userId);
+
+        return Results.Ok(comments);
+    }
+
+    [HttpGet("ByPostId")]
+    public IResult GetCommentsByPostId([FromQuery] int postId)
+    {
+        IQueryable<Comment> comments = commentRepo.GetMany()
+            .Where(c => c.RespondingToId == postId);
+
+        return Results.Ok(comments);
+    }
+    [HttpGet("ByUserName")]
+    public IResult GetCommentsByUserName([FromQuery] string username)
+    {
+        var users = userRepo.GetMany()
+            .Where(u => u.Username.Contains(username))
+            .ToList(); 
+
+        var userIds = users.Select(u => u.Id);
+
+        IQueryable<Comment> comments = commentRepo.GetMany()
+            .Where(c => userIds.Contains(c.AuthorId));
+
+        return Results.Ok(comments);
+    }
+
+
     
     // PUT https://localhost:7065/Comments/{id}
     [HttpPut("{id:int}")]

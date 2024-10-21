@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\domin\\.nuget\\packages\\": {}
+    "C:\\Users\\patty\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj",
+      "projectUniqueName": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj",
       "projectName": "Entities",
-      "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\Entities.csproj",
-      "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_4\\Entities\\obj\\",
+      "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj",
+      "packagesPath": "C:\\Users\\patty\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\patty\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
