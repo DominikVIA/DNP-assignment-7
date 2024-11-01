@@ -87,7 +87,7 @@ public class UsersController
     
     // GET https://localhost:7065/Users - gets all users
     [HttpGet]
-    public IResult GetUsers()
+    public async Task<IResult> GetUsers()
     {
         IQueryable<User> users = userRepo.GetMany();
         return Results.Ok(users);

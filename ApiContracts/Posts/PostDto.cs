@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using ApiContracts.Comments;
+using Entities;
 
 namespace ApiContracts.Posts;
 
@@ -10,7 +11,7 @@ public class PostDto
     public string body { get; set; } 
     public DateTime dateCreated { get; set; }
     public User author { get; set; }
-    public List<Comment> comments { get; set; }
+    public List<CommentDto> comments { get; set; }
     public int likes { get; set; }
     public int dislikes { get; set; }
 }

@@ -45,19 +45,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\patty\\.nuget\\packages\\": {}
+    "C:\\Users\\domin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\FileRepositories\\FileRepositories.csproj",
+      "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_5\\FileRepositories\\FileRepositories.csproj",
       "projectName": "FileRepositories",
-      "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\FileRepositories\\FileRepositories.csproj",
-      "packagesPath": "C:\\Users\\patty\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\FileRepositories\\obj\\",
+      "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_5\\FileRepositories\\FileRepositories.csproj",
+      "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_5\\FileRepositories\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\patty\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -69,8 +69,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\RepositoryContracts.csproj": {
-              "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\RepositoryContracts\\RepositoryContracts.csproj"
+            "C:\\Users\\domin\\RiderProjects\\Assignment_5\\RepositoryContracts\\RepositoryContracts.csproj": {
+              "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_5\\RepositoryContracts\\RepositoryContracts.csproj"
             }
           }
         }

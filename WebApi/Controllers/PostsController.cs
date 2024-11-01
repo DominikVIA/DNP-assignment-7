@@ -1,4 +1,5 @@
-﻿using ApiContracts.Posts;
+﻿using ApiContracts.Comments;
+using ApiContracts.Posts;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryContracts;
@@ -81,9 +82,15 @@ public class PostsController
             
             if (includeComments)
             {
-                gotten.comments = commentRepo.GetMany()
+                
+                List<Comment> comments = commentRepo.GetMany()
                     .Where(comment => comment.RespondingToId == temp.Id)
                     .ToList();
+                gotten.comments = new List<CommentDto>();
+                foreach (var comment in comments)
+                {
+                    gotten.comments.Add(new CommentDto(comment));
+                }
             }
             
             if (includeAuthor)
@@ -111,10 +118,48 @@ public class PostsController
     
     // GET https://localhost:7065/Posts - gets all comments
     [HttpGet]
-    public IResult GetPosts()
+    public async Task<IResult> GetPosts(
+        [FromServices] IUserRepository userRepo,
+        [FromServices] ICommentRepository commentRepo,
+        [FromServices] IReactionRepository reactionRepo)
     {
         IQueryable<Post> posts = postRepo.GetMany();
-        return Results.Ok(posts);
+        List<PostDto> toReturn = new List<PostDto>();
+        foreach (var tempPost in posts)
+        {
+            PostDto gotten = new()
+            {
+                Id = tempPost.Id,
+                authorId = tempPost.AuthorId,
+                title = tempPost.Title,
+                body = tempPost.Body,
+                dateCreated = tempPost.DateCreated
+            };
+            
+            IQueryable<Comment> comments = commentRepo.GetMany()
+                            .Where(comment => comment.RespondingToId == tempPost.Id);
+
+            gotten.comments = new List<CommentDto>();
+            
+            foreach (var comment in comments)
+            {
+                CommentDto tempCommentDto = new CommentDto(comment);
+                tempCommentDto.Author = await userRepo.GetSingleAsync(comment.AuthorId);
+                gotten.comments.Add(tempCommentDto);
+            }
+            
+            gotten.author = await userRepo.GetSingleAsync(tempPost.AuthorId);
+            
+            IQueryable<Reaction> reactions = reactionRepo.GetMany()
+                .Where(reaction => reaction.ContentId == tempPost.Id);
+                
+            gotten.likes = reactions.Count(reaction => reaction.Like);
+            gotten.dislikes = reactions.Count(reaction => !reaction.Like);
+
+            toReturn.Add(gotten);
+        }
+        
+        return Results.Ok(toReturn.AsQueryable());
     }
     
     [HttpGet("ByTitle")]

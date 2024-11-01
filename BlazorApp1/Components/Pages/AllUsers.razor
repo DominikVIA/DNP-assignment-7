@@ -1,0 +1,52 @@
+﻿@page "/AllUsers"
+@using ApiContracts.Users
+@using BlazorApp1.Services
+@using Microsoft.AspNetCore.Components
+<h3>AllUsers</h3>
+
+@if (users == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+<table class="table">
+    <thead>
+    <tr>
+        <th>User ID</th>
+        <th>Username</th>
+        <th>Password</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in users)
+    {
+    <tr>
+        <td>@user.Id</td>
+        <td>@user.Username</td>
+        <td>@user.Password</td>
+    </tr>
+    }
+    </tbody>
+</table>
+}
+
+
+@code {
+    [Inject] public IUserService UserService { get; set; }
+
+    private UserDto[] users;
+
+    async void launch()
+    {
+       users = (await UserService.GetAllUsersAsync()).AsEnumerable().ToArray();
+       await InvokeAsync(StateHasChanged);
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        launch();
+    }
+}

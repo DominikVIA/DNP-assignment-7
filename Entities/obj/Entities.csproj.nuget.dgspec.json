@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj": {}
+    "C:\\Users\\domin\\RiderProjects\\Assignment_5\\Entities\\Entities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj": {
+    "C:\\Users\\domin\\RiderProjects\\Assignment_5\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\domin\\RiderProjects\\Assignment_5\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\Entities.csproj",
-        "packagesPath": "C:\\Users\\patty\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\patty\\RiderProjects\\DNP\\DNP-assignment-4\\Entities\\obj\\",
+        "projectPath": "C:\\Users\\domin\\RiderProjects\\Assignment_5\\Entities\\Entities.csproj",
+        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\domin\\RiderProjects\\Assignment_5\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\patty\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
