@@ -57,13 +57,31 @@ public class HttpCommentService : ICommentService
         throw new NotImplementedException();
     }
 
-    public Task DeleteCommentAsync(int id)
+    public async Task DeleteCommentAsync(int id)
     {
-        throw new NotImplementedException();
+        var response = await _httpClient.DeleteAsync($"https://localhost:7065/Comments/{id}");
+        response.EnsureSuccessStatusCode();
+        
     }
 
-    public Task<IQueryable<CommentDto>> GetAllCommentsAsync()
+
+    public async Task<IQueryable<CommentDto>> GetAllCommentsAsync()
     {
-        throw new NotImplementedException();
+        HttpResponseMessage httpResponse = await _httpClient.GetAsync("https://localhost:7065/Comments");
+        httpResponse.EnsureSuccessStatusCode();
+
+        string response = await httpResponse.Content.ReadAsStringAsync();
+        if (!httpResponse.IsSuccessStatusCode)
+        {
+            throw new Exception(response);
+        }
+
+        List<CommentDto> comments = JsonSerializer.Deserialize<List<CommentDto>>(response, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+
+        return comments.AsQueryable();
     }
+
 }

@@ -3,6 +3,8 @@
 @using BlazorApp1.Services
 @using Microsoft.AspNetCore.Components
 @inject NavigationManager NavManager
+@inject AuthenticationStateProvider AuthProvider
+
 <h3>All Posts</h3>
 
 @if (posts == null)
@@ -13,28 +15,36 @@
 }
 else
 {
-<table class="table">
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Date posted</th>
-        <th>Comments</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var post in posts)
-    {
-        <Modal @ref="modal"/>
-        <tr @onclick="() => ShowPostModal(post)">
-            <td>@post.title</td>
-            <td>@post.dateCreated.Date.ToString()</td>
-            <td>@(post.comments != null ? post.comments.Count : 0)</td>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date posted</th>
+            <th>Comments</th>
+            <th>Actions</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @foreach (var post in posts)
+        {
+            <Modal @ref="modal"/>
+            <tr>
+                <td>@post.title</td>
+                <td>@post.dateCreated.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                <td>@(post.comments != null ? post.comments.Count : 0)</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" @onclick="() => ShowPostModal(post)">View Details</button>
+                    <AuthorizeView>
+                        <Authorized>
+                            <button class="btn btn-secondary btn-sm" @onclick="() => AddComment(post.Id)">Add Comment</button>
+                        </Authorized>
+                    </AuthorizeView>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
-
 
 @code {
     [Inject] public IPostService PostService { get; set; }
@@ -47,14 +57,13 @@ else
     {
         var parameters = new Dictionary<string, object>();
         parameters.Add("Post", post);
-        parameters.Add("OnclickCallback", EventCallback.Factory.Create<MouseEventArgs>(this, AddComment));
         selectedPostId = post.Id;
         await modal.ShowAsync<PostModal>(title: "Post details", parameters: parameters);
     }
 
-    private async Task AddComment(MouseEventArgs e)
+    private void AddComment(int postId)
     {
-        NavManager.NavigateTo($"/AddComment/{selectedPostId}");
+        NavManager.NavigateTo($"/AddComment/{postId}");
     }
     
     protected override async Task OnInitializedAsync()

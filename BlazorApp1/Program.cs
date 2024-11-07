@@ -1,6 +1,9 @@
+using BlazorApp1.Auth;
 using BlazorApp1.Components;
 using BlazorApp1.Services;
 using BlazorBootstrap;
+using Microsoft.AspNetCore.Components.Authorization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +23,11 @@ builder.Services.AddHttpClient<ICommentService, HttpCommentService>(sp => new Ht
 {
     BaseAddress = new Uri("https://localhost:7065/")
 });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7065") });
 builder.Services.AddBlazorBootstrap();
+builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthProvider>();
+builder.Services.AddAuthorizationCore();
+
 
 var app = builder.Build();
 

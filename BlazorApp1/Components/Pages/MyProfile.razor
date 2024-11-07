@@ -1,0 +1,83 @@
+﻿@page "/MyProfile"
+@using ApiContracts.Posts
+@using ApiContracts.Users
+@using BlazorApp1.Services
+@using Microsoft.AspNetCore.Components
+@inject IUserService UserService
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager navMgr
+@inject IPostService PostService
+
+<h3>My Profile</h3>
+
+<AuthorizeView>
+    <Authorized>
+        <div>
+            <p><strong>ID:</strong> @user.Id</p>
+            <p><strong>Username:</strong> @user.Username</p>
+
+            <button class="btn btn-primary mt-3" @onclick="LoadUserPosts">View My Posts</button>
+        </div>
+
+        @if (userPosts != null)
+        {
+        <h4 class="mt-4">My Posts</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date Posted</th>
+                <th>Comments</th>
+                <th style="text-align: right;">Actions</th> 
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var post in userPosts)
+            {
+            <tr>
+                <td>@(string.IsNullOrWhiteSpace(post.title) ? "(No Title)" : post.title)</td>
+                <td>@post.dateCreated.ToString("g")</td>
+                <td>@(post.comments?.Count ?? 0)</td>
+                <td style="text-align: right;">
+                    <button class="btn btn-info btn-sm" @onclick="() => ViewPostDetails(post.Id)">More details</button>
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>Please log in to view your profile.</p>
+        <button @onclick='() => navMgr.NavigateTo("login")' class="btn btn-primary">Login</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private UserDto user = new UserDto();
+    private List<PostDto> userPosts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var loggedUser = authState.User;
+        
+        if (loggedUser.Identity.IsAuthenticated)
+        {
+            int userId = int.Parse(loggedUser.FindFirst(c => c.Type == "Id")?.Value ?? "0");
+            user = await UserService.GetSingleUserAsync(userId);
+        }
+    }
+
+    private async Task LoadUserPosts()
+    {
+        userPosts = (await PostService.GetAllPostsAsync())
+            .Where(p => p.authorId == user.Id)
+            .ToList();
+    }
+
+    private void ViewPostDetails(int postId)
+    {
+        navMgr.NavigateTo($"/PostDetails/{postId}");
+    }
+}

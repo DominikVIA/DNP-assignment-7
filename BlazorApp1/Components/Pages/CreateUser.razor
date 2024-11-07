@@ -1,0 +1,91 @@
+﻿@page "/CreateUser"
+@using ApiContracts.Users
+@using BlazorApp1.Services
+@using Microsoft.AspNetCore.Components
+@inject NavigationManager NavManager
+@inject IUserService UserService
+
+<h3>Create User</h3>
+
+<div class="form-container">
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input id="username" type="text" @bind="username" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input id="password" type="password" @bind="password" class="form-control" />
+    </div>
+    <button @onclick="CreateUserAsync" class="btn btn-primary">Create User</button>
+</div>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+<p style="color:red">@errorMessage</p>
+}
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+    .btn {
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+@code {
+private string username = string.Empty;
+private string password = string.Empty;
+private string email = string.Empty;
+private string errorMessage = string.Empty;
+
+private async Task CreateUserAsync()
+{
+errorMessage = string.Empty;
+
+try
+{
+var newUser = new CreateUserDto
+{
+Username = username,
+Password = password,
+};
+
+await UserService.AddUserAsync(newUser);
+
+NavManager.NavigateTo("/Login"); 
+}
+catch (Exception ex)
+{
+errorMessage = $"Failed to create user: {ex.Message}";
+}
+}
+}

@@ -55,10 +55,12 @@ public class HttpPostService : IPostService
         throw new NotImplementedException();
     }
 
-    public Task DeletePostAsync(int id)
+    public async Task DeletePostAsync(int id)
     {
-        throw new NotImplementedException();
+        var response = await _httpClient.DeleteAsync($"https://localhost:7065/Posts/{id}");
+        response.EnsureSuccessStatusCode();
     }
+
 
     public async Task<IQueryable<PostDto>> GetAllPostsAsync()
     {

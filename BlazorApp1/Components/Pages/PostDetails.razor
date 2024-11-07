@@ -1,0 +1,84 @@
+﻿@page "/PostDetails/{postId:int}"
+@using ApiContracts.Comments
+@using ApiContracts.Posts
+@using BlazorApp1.Services
+@inject IPostService PostService
+@inject ICommentService CommentService
+@inject NavigationManager navMgr
+
+<h3>Post Comments</h3>
+
+@if (post != null)
+{
+    <div class="post-details">
+        <h4>@post.title</h4>
+        <p>@post.body</p>
+        <p><strong>Posted on:</strong> @post.dateCreated.ToString("g")</p>
+
+        <button class="btn btn-danger mt-3" @onclick="DeletePost">Delete Post</button>
+    </div>
+
+    <h5 class="mt-4">Comments</h5>
+    @if (filteredComments.Any())
+    {
+        <ul class="list-group">
+            @foreach (var comment in filteredComments)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>@comment.Body - <small>@comment.DateCreated.ToString("g")</small></span>
+                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteComment(comment.Id)">Delete Comment</button>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No comments yet.</p>
+    }
+
+    <button class="btn btn-secondary mt-3" @onclick="GoBack">Back to Profile</button>
+}
+else
+{
+    <p>Loading post details...</p>
+}
+
+@code {
+    [Parameter] public int postId { get; set; }
+    private PostDto post;
+    private List<CommentDto> allComments = new(); 
+    private List<CommentDto> filteredComments = new(); 
+
+    protected override async Task OnInitializedAsync()
+    {
+        post = await PostService.GetSinglePostAsync(postId);
+        
+        allComments = (await CommentService.GetAllCommentsAsync()).ToList(); 
+
+        FilterCommentsByPostId();
+    }
+
+    private void FilterCommentsByPostId()
+    {
+        filteredComments = allComments.Where(c => c.RespondingToId == postId).ToList(); 
+    }
+
+    private async Task DeletePost()
+    {
+        await PostService.DeletePostAsync(postId);
+        navMgr.NavigateTo("/MyProfile"); 
+    }
+
+    private async Task DeleteComment(int commentId)
+    {
+        await CommentService.DeleteCommentAsync(commentId);
+
+        allComments = allComments.Where(c => c.Id != commentId).ToList(); 
+        FilterCommentsByPostId(); 
+    }
+
+    private void GoBack()
+    {
+        navMgr.NavigateTo("/MyProfile");
+    }
+}

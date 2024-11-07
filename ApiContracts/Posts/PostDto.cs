@@ -7,8 +7,8 @@ public class PostDto
 {
     public int Id { get; set; }
     public int authorId { get; set; }
-    public string title { get; set; }
-    public string body { get; set; } 
+    public string title { get; set; }  = string.Empty;
+    public string body { get; set; }  = string.Empty;
     public DateTime dateCreated { get; set; }
     public User author { get; set; }
     public List<CommentDto> comments { get; set; }
