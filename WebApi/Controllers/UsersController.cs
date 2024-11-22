@@ -1,5 +1,9 @@
-﻿using ApiContracts.Users;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using ApiContracts.Users;
 using Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryContracts;
 

@@ -26,25 +26,8 @@ namespace EfcRepositories
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Content>().HasKey(c => c.Id);
-            modelBuilder.Entity<Content>().Property(c => c.Id).ValueGeneratedOnAdd();
             
-            // modelBuilder.Entity<Content>()
-            //     .HasDiscriminator<string>("ContentType")
-            //     .HasValue<Content>("Content")
-            //     .HasValue<Post>("Post")
-            //     .HasValue<Comment>("Comment");
-            //
-            // modelBuilder.Entity<Post>()
-            //     .HasBaseType<Content>();
-            //
-            // modelBuilder.Entity<Comment>()
-            //     .HasBaseType<Content>();
-            //
-            // modelBuilder.Entity<Comment>()
-            //     .HasOne(c => c.RespondingTo)
-            //     .WithMany()
-            //     .HasForeignKey(c => c.RespondingToId)
-            //     .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Content>().Property(c => c.Id).ValueGeneratedOnAdd();
             
             modelBuilder.Entity<Content>().ToTable("Contents");
 
@@ -63,18 +46,11 @@ namespace EfcRepositories
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>().HasKey(u => u.Id);
+            
             modelBuilder.Entity<User>()
                 .Property(u => u.Id)
                 .ValueGeneratedOnAdd();
             
-            /*modelBuilder.Entity<Post>().HasKey(p => p.Id);
-            modelBuilder.Entity<Post>()
-                .Property(p => p.Id)
-                .ValueGeneratedOnAdd();
-            modelBuilder.Entity<Comment>().HasKey(c => c.Id);
-            modelBuilder.Entity<Comment>()
-                .Property(c => c.Id)
-                .ValueGeneratedOnAdd();*/
             modelBuilder.Entity<Reaction>().HasKey(r => new { r.UserId, r.ContentId });
         }
     }
