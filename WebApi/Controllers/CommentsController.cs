@@ -112,6 +112,7 @@ public class CommentsController
         IQueryable<Comment> comments = commentRepo.GetMany();
         return Results.Ok(comments);
     }
+    
     [HttpGet("ByUserId")]
     public IResult GetCommentsByUserId([FromQuery] int userId)
     {

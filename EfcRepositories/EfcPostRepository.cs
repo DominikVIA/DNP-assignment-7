@@ -50,10 +50,9 @@ public class EfcPostRepository : IPostRepository
         }
         return existing;
     }
+    
     public IQueryable<Post> GetMany()
     {
         return ctx.Posts.AsQueryable();
     }
-
-
 }
