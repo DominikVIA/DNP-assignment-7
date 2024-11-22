@@ -28,7 +28,7 @@ public class CommentFileRepository : ICommentRepository
         return comment;
     }
 
-    public async Task<Comment> UpdateAsync(Comment comment)
+    public async Task UpdateAsync(Comment comment)
     {
         string commentsAsJson = await File.ReadAllTextAsync(filePath);
         List<Comment> comments = JsonSerializer.Deserialize<List<Comment>>(commentsAsJson)!;
@@ -43,7 +43,6 @@ public class CommentFileRepository : ICommentRepository
         comments.Add(comment);
         commentsAsJson = JsonSerializer.Serialize(comments);
         await File.WriteAllTextAsync(filePath, commentsAsJson);
-        return comment;
     }
 
     public async Task DeleteAsync(int id)
@@ -60,7 +59,8 @@ public class CommentFileRepository : ICommentRepository
     {
         string commentsAsJson = await File.ReadAllTextAsync(filePath);
         List<Comment> comments = JsonSerializer.Deserialize<List<Comment>>(commentsAsJson)!;
-        var temp = comments.First(u => u.Id == id);
+        var temp = comments.SingleOrDefault(c => c.Id == id);
+        if (temp is null) throw new KeyNotFoundException($"Comment with the ID {id} not found");
         return temp;
     }
 

@@ -20,21 +20,19 @@ public class ReactionFileRepository : IReactionRepository
     {
         string reactionsAsJson = await File.ReadAllTextAsync(filePath);
         List<Reaction> reactions = JsonSerializer.Deserialize<List<Reaction>>(reactionsAsJson)!;
-        int maxId = reactions.Count > 0 ? reactions.Max(x => x.Id) : 0;
-        reaction.Id = maxId + 1;
         reactions.Add(reaction);
         reactionsAsJson = JsonSerializer.Serialize(reactions);
         await File.WriteAllTextAsync(filePath, reactionsAsJson);
         return reaction;
     }
 
-    public async Task<Reaction> UpdateAsync(Reaction reaction)
+    /*public async Task<Reaction> UpdateAsync(Reaction reaction)
     {
         string reactionsAsJson = await File.ReadAllTextAsync(filePath);
         List<Reaction> reactions = JsonSerializer.Deserialize<List<Reaction>>(reactionsAsJson)!;
-        var temp = reactions.First(u => u.Id == reaction.Id);
+        var temp = reactions.First(r => r.UserId == reaction.UserId && r.ContentId == reaction.ContentId);
         
-        if (temp is null) throw new KeyNotFoundException($"Post with the ID {reaction.Id} not found");
+        if (temp is null) throw new KeyNotFoundException($"Reaction made by the {reaction.Id} not found");
         if(reaction.UserId == -1) reaction.UserId = temp.UserId;
         if(reaction.ContentId == -1) reaction.ContentId = temp.ContentId;
         if (reaction.DateCreated.Equals(DateTime.MinValue)) reaction.DateCreated = temp.DateCreated;
@@ -44,23 +42,23 @@ public class ReactionFileRepository : IReactionRepository
         reactionsAsJson = JsonSerializer.Serialize(reactions);
         await File.WriteAllTextAsync(filePath, reactionsAsJson);
         return reaction;
-    }
+    }*/
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(int userId, int contentId)
     {
         string reactionsAsJson = await File.ReadAllTextAsync(filePath);
         List<Reaction> reactions = JsonSerializer.Deserialize<List<Reaction>>(reactionsAsJson)!;
-        var temp = reactions.First(u => u.Id == id);
+        var temp = reactions.First(r => r.UserId == userId && r.ContentId == contentId);
         reactions.Remove(temp);
         reactionsAsJson = JsonSerializer.Serialize(reactions);
         await File.WriteAllTextAsync(filePath, reactionsAsJson);
     }
 
-    public async Task<Reaction> GetSingleAsync(int id)
+    public async Task<Reaction> GetSingleAsync(int userId, int contentId)
     {
         string reactionsAsJson = await File.ReadAllTextAsync(filePath);
         List<Reaction> reactions = JsonSerializer.Deserialize<List<Reaction>>(reactionsAsJson)!;
-        var temp = reactions.First(u => u.Id == id);
+        var temp = reactions.First(r => r.UserId == userId && r.ContentId == contentId);
         return temp;
     }
 

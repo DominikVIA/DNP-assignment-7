@@ -24,7 +24,13 @@ public class CommentsController
     {
         // verify that user with authorId exists
         
-        Comment temp = new Comment(comment.AuthorId, comment.RespondingToId, comment.Body, DateTime.Now);
+        Comment temp = new Comment
+        {
+            AuthorId = comment.AuthorId, 
+            RespondingToId = comment.RespondingToId, 
+            Body = comment.Body, 
+            DateCreated = DateTime.Now
+        };
         Comment result = await commentRepo.AddAsync(temp);
         return Results.Created($"comments/{result.Id}", result);
     }
@@ -53,12 +59,18 @@ public class CommentsController
         [FromServices] IPostRepository postRepo,
         [FromRoute] int id,
         [FromQuery] bool includeAuthor,
-        [FromQuery] bool includeParentContent
-        )
+        [FromQuery] bool includeParentContent)
     {
         try
         {
-            Comment temp = await commentRepo.GetSingleAsync(id);
+            await commentRepo.GetSingleAsync(id);
+        
+            Comment? temp = commentRepo.GetMany().FirstOrDefault(c => c.Id == id);
+            if (temp == null)
+            {
+                return Results.NotFound($"Comment with id {id} not found");
+            }
+
             CommentDto result = new CommentDto()
             {
                 Id = temp.Id,
@@ -77,15 +89,16 @@ public class CommentsController
             {
                 result.RespondingTo = await postRepo.GetSingleAsync(temp.RespondingToId);
             }
-            
+
             return Results.Ok(result);
         }
-        catch (KeyNotFoundException e)
+        catch (Exception e)
         {
             Console.WriteLine(e);
-            return Results.NotFound(e.Message);
+            return Results.Problem(e.Message);
         }
     }
+
     
     // GET https://localhost:7065/Comments - gets all comments
     [HttpGet]
@@ -133,13 +146,35 @@ public class CommentsController
     public async Task<IResult> UpdateComment([FromRoute] int id,
         [FromBody] UpdateCommentDto request)
     {
-        Comment comment = new Comment (-1, -1, request.Body, DateTime.MinValue)
+        try
         {
-            Id = id,
-        };
-        comment = await commentRepo.UpdateAsync(comment);
-        return Results.Created($"comments/{comment.Id}", comment);
+            // Actualizamos el comentario
+            Comment? requestedComment = await commentRepo.GetSingleAsync(id);
+            if(requestedComment == null) throw new KeyNotFoundException("Comment with id: " + id + " not found");
+            Comment comment = new Comment { 
+                Id = requestedComment.Id, 
+                AuthorId = requestedComment.AuthorId, 
+                Body = request.Body, 
+                DateCreated = requestedComment.DateCreated 
+            };
+            await commentRepo.UpdateAsync(comment);
+
+            // Recuperamos el comentario actualizado
+            Comment? updatedComment = await commentRepo.GetSingleAsync(comment.Id);
+            if (updatedComment == null)
+            {
+                return Results.NotFound($"Comment with id {id} not found after update");
+            }
+
+            return Results.Ok(updatedComment);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return Results.Problem(e.Message);
+        }
     }
+
     
     // DELETE https://localhost:7065/Comments/{id} - deletes a comment with a given id
     [HttpDelete("{id:int}")]

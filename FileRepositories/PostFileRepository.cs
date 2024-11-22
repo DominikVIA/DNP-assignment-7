@@ -28,21 +28,20 @@ public class PostFileRepository : IPostRepository
         return post;
     }
 
-    public async Task<Post> UpdateAsync(Post post)
+    public async Task UpdateAsync(Post post)
     {
         string postsAsJson = await File.ReadAllTextAsync(filePath);
         List<Post> posts = JsonSerializer.Deserialize<List<Post>>(postsAsJson)!;
         var temp = posts.SingleOrDefault(p => p.Id == post.Id);
-        
+
         if (temp is null) throw new KeyNotFoundException($"Post with the ID {post.Id} not found");
-        if(post.AuthorId == -1) post.AuthorId = temp.AuthorId;
+        if (post.AuthorId == -1) post.AuthorId = temp.AuthorId;
         if (post.DateCreated.Equals(DateTime.MinValue)) post.DateCreated = temp.DateCreated;
-        
+
         posts.Remove(temp);
         posts.Add(post);
         postsAsJson = JsonSerializer.Serialize(posts);
         await File.WriteAllTextAsync(filePath, postsAsJson);
-        return post;
     }
 
     public async Task DeleteAsync(int id)

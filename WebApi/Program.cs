@@ -1,6 +1,10 @@
+using EfcRepositories;
 using FileRepositories;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
+using AppContext = System.AppContext;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +15,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUserRepository, UserFileRepository>();
-builder.Services.AddScoped<IPostRepository, PostFileRepository>();
-builder.Services.AddScoped<ICommentRepository, CommentFileRepository>();
-builder.Services.AddScoped<IReactionRepository, ReactionFileRepository>();
-//builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthProvider>();
+builder.Services.AddScoped<IUserRepository, EfcUserRepository>();
+builder.Services.AddScoped<IPostRepository, EfcPostRepository>();
+builder.Services.AddScoped<ICommentRepository, EfcCommentRepository>();
+builder.Services.AddScoped<IReactionRepository, EfcReactionRepository>();
+//builder.Services.AddDbContext<AppContext>();
+builder.Services.AddDbContext<EfcRepositories.AppContext>(options =>
+    options.UseSqlite("Data Source=C:\\Users\\patty\\RiderProjects\\DNP_Assignment7\\EfcRepositories\\Reddit.db"));
+
+
 
 var app = builder.Build();
 

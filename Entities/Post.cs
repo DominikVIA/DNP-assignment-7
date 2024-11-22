@@ -1,11 +1,13 @@
 ﻿namespace Entities;
 
-public class Post(
-    int authorId,
-    string title,
-    string body,
-    DateTime dateCreated)
-    : Content(authorId, body, dateCreated)
+public class Post : Content
 {
-    public string Title { get; set; } = title;
+    public string Title { get; set; }
+
+    // public Post(int authorId, string title, string body, DateTime dateCreated)
+    //     : base(authorId, body, dateCreated)
+    // {
+    //     Title = title;
+    // }
+   // private Post(){}
 }

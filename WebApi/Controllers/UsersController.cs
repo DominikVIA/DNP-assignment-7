@@ -20,7 +20,11 @@ public class UsersController
     [HttpPost]
     public async Task<IResult> CreateUser([FromBody] CreateUserDto user)
     {
-        User temp = new User(user.Username, user.Password);
+        User temp = new User
+        {
+            Username = user.Username, 
+            Password = user.Password
+        };
         User result = await userRepo.AddAsync(temp);
         return Results.Created($"users/{result.Id}", result);
     }
@@ -45,16 +49,22 @@ public class UsersController
         // gets a single user with id and with details
         [HttpGet("{id:int}")]
         public async Task<IResult> GetSingleUser(
-        [FromServices] ICommentRepository commentRepo,
-        [FromServices] IPostRepository postRepo,
-        [FromRoute] int id,
-        [FromQuery] bool includePosts,
-        [FromQuery] bool includeComments
-        )
+            [FromServices] ICommentRepository commentRepo,
+            [FromServices] IPostRepository postRepo,
+            [FromRoute] int id,
+            [FromQuery] bool includePosts,
+            [FromQuery] bool includeComments)
         {
             try
             {
-                User temp = await userRepo.GetSingleAsync(id);
+                await userRepo.GetSingleAsync(id);
+        
+                User? temp = userRepo.GetMany().FirstOrDefault(u => u.Id == id);
+                if (temp == null)
+                {
+                    return Results.NotFound($"User with id {id} not found");
+                }
+
                 UserDto result = new UserDto()
                 {
                     Id = temp.Id,
@@ -68,22 +78,23 @@ public class UsersController
                         .Where(p => p.AuthorId == result.Id)
                         .ToList();
                 }
-                
+
                 if (includeComments)
                 {
                     result.Comments = commentRepo.GetMany()
                         .Where(c => c.AuthorId == result.Id)
                         .ToList();
                 }
-                
+
                 return Results.Ok(result);
             }
-            catch (KeyNotFoundException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
-                return Results.NotFound(e.Message);
+                return Results.Problem(e.Message);
             }
         }
+
     
     // GET https://localhost:7065/Users - gets all users
     [HttpGet]
@@ -98,13 +109,31 @@ public class UsersController
     public async Task<IResult> UpdateUser([FromRoute] int id,
         [FromBody] UpdateUserDto request)
     {
-        User user = new User (request.Username, request.Password)
+        try
         {
-            Id = id,
-        };
-        user = await userRepo.UpdateAsync(user);
-        return Results.Created($"users/{user.Id}", user);
+            User user = new User
+            {
+                Username = request.Username,
+                Password = request.Password,
+                Id = id,
+            };
+            await userRepo.UpdateAsync(user);
+
+            User? updatedUser = userRepo.GetMany().FirstOrDefault(u => u.Id == id);
+            if (updatedUser == null)
+            {
+                return Results.NotFound($"User with id {id} not found after update");
+            }
+
+            return Results.Ok(updatedUser);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return Results.Problem(e.Message);
+        }
     }
+
     
     // DELETE https://localhost:7065/Users/{id} - deletes a user with a given id
     [HttpDelete("{id:int}")]

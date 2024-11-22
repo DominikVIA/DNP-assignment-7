@@ -22,9 +22,15 @@ public class ReactionsController
     {
         // verify that user with authorId exists
         
-        Reaction temp = new Reaction(reaction.UserId, reaction.ContentId, reaction.Like, DateTime.Now);
+        Reaction temp = new Reaction
+        {
+            UserId = reaction.UserId, 
+            ContentId = reaction.ContentId, 
+            Like = reaction.Like, 
+            DateCreated = DateTime.Now
+        };
         Reaction result = await reactionRepo.AddAsync(temp);
-        return Results.Created($"reactions/{result.Id}", result);
+        return Results.Created($"reactions/{result.UserId}/{result.ContentId}", result);
     }
     
     // //GET https://localhost:7065/Reactions/{id} - gets a single reaction with given id
@@ -44,21 +50,21 @@ public class ReactionsController
     // }
     
     //GET https://localhost:7065/Reactions/{id} - gets a single reaction with given id
-    [HttpGet("{id:int}")]
+    [HttpGet("{userId:int}/{contentId:int}")]
     public async Task<IResult> GetSingleReaction(
         [FromServices] IUserRepository userRepo,
         [FromServices] IPostRepository postRepo,
-        [FromRoute] int id,
+        [FromRoute] int userId,
+        [FromRoute] int contentId,
         [FromQuery] bool includeUser,
         [FromQuery] bool includePost
         )
     {
         try
         {
-            Reaction temp = await reactionRepo.GetSingleAsync(id);
+            Reaction temp = await reactionRepo.GetSingleAsync(userId, contentId);
             ReactionDto result = new ReactionDto()
             {
-                Id = temp.Id,
                 UserId = temp.UserId,
                 ContentId = temp.ContentId,
                 Like = temp.Like,
@@ -92,24 +98,28 @@ public class ReactionsController
         return Results.Ok(reactions);
     }
     
-    // PUT https://localhost:7065/Reactions/{id}
-    [HttpPut("{id:int}")]
-    public async Task<IResult> UpdateReaction([FromRoute] int id,
-        [FromBody] UpdateReactionDto request)
-    {
-        Reaction reaction = new Reaction (-1, -1, request.Like, DateTime.MinValue)
-        {
-            Id = id,
-        };
-        reaction = await reactionRepo.UpdateAsync(reaction);
-        return Results.Created($"reactions/{reaction.Id}", reaction);
-    }
+    // // PUT https://localhost:7065/Reactions/{id}
+    // [HttpPut("{id:int}")]
+    // public async Task<IResult> UpdateReaction([FromRoute] int id,
+    //     [FromBody] UpdateReactionDto request)
+    // {
+    //     Reaction reaction = new Reaction (-1, -1, request.Like, DateTime.MinValue)
+    //     {
+    //         UserId = -1,
+    //         ContentId = -1,
+    //         request.Like,
+    //     };
+    //     reaction = await reactionRepo.UpdateAsync(reaction);
+    //     return Results.Created($"reactions/{reaction.Id}", reaction);
+    // }
     
     // DELETE https://localhost:7065/Reactions/{id} - deletes a reaction with a given id
-    [HttpDelete("{id:int}")]
-    public async Task<IResult> DeleteReaction([FromRoute] int id)
+    [HttpDelete("{userId:int}/{contentId:int}")]
+    public async Task<IResult> DeleteReaction(
+        [FromRoute] int userId,
+        [FromRoute] int contentId)
     {
-        await reactionRepo.DeleteAsync(id);
+        await reactionRepo.DeleteAsync(userId, contentId);
         return Results.NoContent();
     }
 }
