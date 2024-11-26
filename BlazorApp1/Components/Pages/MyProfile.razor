@@ -35,9 +35,9 @@
             @foreach (var post in userPosts)
             {
             <tr>
-                <td>@(string.IsNullOrWhiteSpace(post.title) ? "(No Title)" : post.title)</td>
-                <td>@post.dateCreated.ToString("g")</td>
-                <td>@(post.comments?.Count ?? 0)</td>
+                <td>@(string.IsNullOrWhiteSpace(post.Title) ? "(No Title)" : post.Title)</td>
+                <td>@post.DateCreated.ToString("g")</td>
+                <td>@(post.Comments?.Count ?? 0)</td>
                 <td style="text-align: right;">
                     <button class="btn btn-info btn-sm" @onclick="() => ViewPostDetails(post.Id)">More details</button>
                 </td>
@@ -72,7 +72,7 @@
     private async Task LoadUserPosts()
     {
         userPosts = (await PostService.GetAllPostsAsync())
-            .Where(p => p.authorId == user.Id)
+            .Where(p => p.AuthorId == user.Id)
             .ToList();
     }
 

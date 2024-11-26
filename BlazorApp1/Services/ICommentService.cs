@@ -9,4 +9,5 @@ public interface ICommentService
     public Task<CommentDto> UpdateCommentAsync(int id, UpdateCommentDto commentDto);
     public Task DeleteCommentAsync(int id);
     public Task<IQueryable<CommentDto>> GetAllCommentsAsync();
+    public Task<IQueryable<CommentDto>> GetAllCommentsByPostIdAsync(int postId);
 }

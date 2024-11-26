@@ -23,6 +23,10 @@ builder.Services.AddHttpClient<ICommentService, HttpCommentService>(sp => new Ht
 {
     BaseAddress = new Uri("https://localhost:7065/")
 });
+builder.Services.AddHttpClient<IReactionService, HttpReactionService>(sp => new HttpClient
+{
+    BaseAddress = new Uri("https://localhost:7065/")
+});
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7065") });
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthProvider>();

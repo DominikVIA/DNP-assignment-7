@@ -84,4 +84,22 @@ public class HttpCommentService : ICommentService
         return comments.AsQueryable();
     }
 
+    public async Task<IQueryable<CommentDto>> GetAllCommentsByPostIdAsync(int postId)
+    {
+        HttpResponseMessage httpResponse = await _httpClient.GetAsync($"https://localhost:7065/Comments/ByPostId?postId={postId}");
+        httpResponse.EnsureSuccessStatusCode();
+
+        string response = await httpResponse.Content.ReadAsStringAsync();
+        if (!httpResponse.IsSuccessStatusCode)
+        {
+            throw new Exception(response);
+        }
+
+        List<CommentDto> comments = JsonSerializer.Deserialize<List<CommentDto>>(response, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+
+        return comments.AsQueryable();
+    }
 }

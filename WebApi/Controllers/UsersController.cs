@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ApiContracts.Comments;
+using ApiContracts.Posts;
 using ApiContracts.Users;
-using Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 
 namespace WebApi.Controllers;
@@ -53,54 +51,51 @@ public class UsersController
         // gets a single user with id and with details
         [HttpGet("{id:int}")]
         public async Task<IResult> GetSingleUser(
-            [FromServices] ICommentRepository commentRepo,
-            [FromServices] IPostRepository postRepo,
             [FromRoute] int id,
             [FromQuery] bool includePosts,
             [FromQuery] bool includeComments)
         {
-            try
+            var queryForUser = userRepo.GetMany().Where(u => u.Id == id)
+                .AsQueryable();
+
+            if (includePosts)
+                queryForUser.Include(u => u.Posts);
+            
+            if (includeComments)
+                queryForUser.Include(u => u.Comments);
+
+            UserDto? dto = await queryForUser.Select(u => new UserDto
             {
-                await userRepo.GetSingleAsync(id);
-        
-                User? temp = userRepo.GetMany().FirstOrDefault(u => u.Id == id);
-                if (temp == null)
-                {
-                    return Results.NotFound($"User with id {id} not found");
-                }
+                Id = u.Id,
+                Username = u.Username,
 
-                UserDto result = new UserDto()
-                {
-                    Id = temp.Id,
-                    Username = temp.Username,
-                    Password = temp.Password
-                };
+                Comments = includeComments
+                    ? u.Comments.Select(c => new CommentDto
+                    {
+                        Id = c.Id,
+                        Body = c.Body,
+                        AuthorId = c.AuthorId,
+                        DateCreated = c.DateCreated
+                    }).ToList()
+                    : new(),
+                
+                Posts = includePosts
+                    ? u.Posts.Select(p => new PostDto
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Body = p.Body,
+                        DateCreated = p.DateCreated,
+                        AuthorId = p.AuthorId,
+                    }).ToList()
+                    : new()
+            }).FirstOrDefaultAsync();
 
-                if (includePosts)
-                {
-                    result.Posts = postRepo.GetMany()
-                        .Where(p => p.AuthorId == result.Id)
-                        .ToList();
-                }
-
-                if (includeComments)
-                {
-                    result.Comments = commentRepo.GetMany()
-                        .Where(c => c.AuthorId == result.Id)
-                        .ToList();
-                }
-
-                return Results.Ok(result);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return Results.Problem(e.Message);
-            }
+            return dto == null ? Results.NotFound() : Results.Ok(dto);
         }
 
-    
-    // GET https://localhost:7065/Users - gets all users
+
+        // GET https://localhost:7065/Users - gets all users
     [HttpGet]
     public async Task<IResult> GetUsers()
     {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Reddit" uuid="08c656a6-4252-4118-ab0d-a55f5169e640">
+    <data-source source="LOCAL" name="Reddit" uuid="e8d76e30-b870-41c9-8fea-56ac53a450b7">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\patty\RiderProjects\DNP_Assignment7\EfcRepositories\Reddit.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\domin\RiderProjects\DNP_Assignment6\EfcRepositories\Reddit.db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>

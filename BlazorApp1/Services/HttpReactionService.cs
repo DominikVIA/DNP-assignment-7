@@ -1,22 +1,22 @@
 ﻿using System.Text.Json;
-using ApiContracts.Posts;
+using ApiContracts.Reactions;
 
 namespace BlazorApp1.Services;
 
-public class HttpPostService : IPostService
+public class HttpReactionService : IReactionService
 {
     private readonly HttpClient _httpClient;
 
-    public HttpPostService(HttpClient httpClient)
+    public HttpReactionService(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
 
-    public async Task<PostDto> GetSinglePostAsync(int id)
+    public async Task<ReactionDto> GetSingleReactionAsync(int userId, int contentId)
     {
         HttpResponseMessage httpResponse =
             await _httpClient.GetAsync(
-                $"https://localhost:7065/Posts/{id}?includeComments=true&includeAuthor=true");
+                $"https://localhost:7065/Reactions/{userId}/{contentId}?includeUser=true&includeContent=true");
         httpResponse.EnsureSuccessStatusCode();
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
@@ -24,7 +24,7 @@ public class HttpPostService : IPostService
             throw new Exception(response);
         }
 
-        return JsonSerializer.Deserialize<PostDto>(
+        return JsonSerializer.Deserialize<ReactionDto>(
             response,
             new JsonSerializerOptions
             {
@@ -32,16 +32,16 @@ public class HttpPostService : IPostService
             })!;
     }
 
-    public async Task<PostDto> AddPostAsync(CreatePostDto postDto)
+    public async Task<ReactionDto> AddReactionAsync(CreateReactionDto reactionDto)
     {
-        HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync("https://localhost:7065/Posts", postDto); 
+        HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync("https://localhost:7065/Reactions", reactionDto); 
         httpResponse.EnsureSuccessStatusCode();
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
             throw new Exception(response);
         } 
-        return JsonSerializer.Deserialize<PostDto>(
+        return JsonSerializer.Deserialize<ReactionDto>(
             response, 
             new JsonSerializerOptions
             {
@@ -49,33 +49,33 @@ public class HttpPostService : IPostService
             })!;
     } 
 
-    public Task<PostDto> UpdatePostAsync(int id, UpdatePostDto postDto)
+    public Task<ReactionDto> UpdateReactionAsync(int userId, int contentId, UpdateReactionDto reactionDto)
     {
         throw new NotImplementedException();
     }
 
-    public async Task DeletePostAsync(int id)
+    public async Task DeleteReactionAsync(int userId, int contentId)
     {
-        var response = await _httpClient.DeleteAsync($"https://localhost:7065/Posts/{id}");
+        var response = await _httpClient.DeleteAsync($"https://localhost:7065/Reactions/{userId}/{contentId}");
         response.EnsureSuccessStatusCode();
     }
 
 
-    public async Task<IQueryable<PostDto>> GetAllPostsAsync()
+    public async Task<IQueryable<ReactionDto>> GetAllReactionsAsync()
     {
-        HttpResponseMessage httpResponse = await _httpClient.GetAsync($"https://localhost:7065/Posts?includeComments=true&includeAuthor=true&includeReactions=true");
+        HttpResponseMessage httpResponse = await _httpClient.GetAsync($"https://localhost:7065/Reactions");
         httpResponse.EnsureSuccessStatusCode();
         string response = await httpResponse.Content.ReadAsStringAsync();
         if (!httpResponse.IsSuccessStatusCode)
         {
             throw new Exception(response);
         } 
-        List<PostDto> posts = JsonSerializer.Deserialize<List<PostDto>>(response,
+        List<ReactionDto> reactions = JsonSerializer.Deserialize<List<ReactionDto>>(response,
             new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             })!;
         
-        return posts.AsQueryable();
+        return reactions.AsQueryable();
     }
 }

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ApiContracts.Content;
 using ApiContracts.Reactions;
+using ApiContracts.Users;
 using Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 
 namespace WebApi.Controllers;
@@ -57,42 +55,45 @@ public class ReactionsController
     //GET https://localhost:7065/Reactions/{id} - gets a single reaction with given id
     [HttpGet("{userId:int}/{contentId:int}")]
     public async Task<IResult> GetSingleReaction(
-        [FromServices] IUserRepository userRepo,
-        [FromServices] IPostRepository postRepo,
         [FromRoute] int userId,
         [FromRoute] int contentId,
         [FromQuery] bool includeUser,
-        [FromQuery] bool includePost
+        [FromQuery] bool includeContent
         )
     {
-        try
-        {
-            Reaction temp = await reactionRepo.GetSingleAsync(userId, contentId);
-            ReactionDto result = new ReactionDto()
-            {
-                UserId = temp.UserId,
-                ContentId = temp.ContentId,
-                Like = temp.Like,
-                DateCreated = temp.DateCreated
-            };
+        var queryForReaction = reactionRepo.GetMany()
+            .Where(r => r.UserId == userId && r.ContentId == contentId)
+            .AsQueryable();
 
-            if (includeUser)
-            {
-                result.Author = await userRepo.GetSingleAsync(temp.UserId);
-            }
-            
-            if (includePost)
-            {
-                result.Content = await postRepo.GetSingleAsync(temp.ContentId);
-            }
-            
-            return Results.Ok(result);
-        }
-        catch (KeyNotFoundException e)
+        if (includeUser)
+            queryForReaction.Include(r => r.User);
+        
+        if (includeContent)
+            queryForReaction.Include(r => r.Content);
+        
+        ReactionDto? dto = await queryForReaction.Select(r => new ReactionDto
         {
-            Console.WriteLine(e);
-            return Results.NotFound(e.Message);
-        }
+            UserId = r.UserId,
+            ContentId = r.ContentId,
+            Like = r.Like,
+            DateCreated = r.DateCreated,
+            
+            Author = includeUser ? new UserDto
+            {
+                Id = r.User.Id,
+                Username = r.User.Username,
+            } : null,
+            
+            Content = includeContent ? new ContentDto
+            {
+                Id = r.Content.Id,
+                AuthorId = r.Content.AuthorId,
+                Body = r.Content.Body,
+                DateCreated = r.Content.DateCreated
+            } : null
+            
+        }).FirstOrDefaultAsync();
+        return Results.Ok(dto);
     }
     
     // GET https://localhost:7065/Reactions - gets all reactions

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using EfcRepositories;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +21,13 @@ builder.Services.AddScoped<ICommentRepository, EfcCommentRepository>();
 builder.Services.AddScoped<IReactionRepository, EfcReactionRepository>();
 //builder.Services.AddDbContext<AppContext>();
 builder.Services.AddDbContext<EfcRepositories.AppContext>(options =>
-    options.UseSqlite("Data Source=C:\\Users\\patty\\RiderProjects\\DNP_Assignment7\\EfcRepositories\\Reddit.db"));
+    options.UseSqlite("Data Source= C:\\Users\\domin\\RiderProjects\\DNP_Assignment6\\EfcRepositories\\Reddit.db"));
 
-
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.WriteIndented = true;
+});
 
 var app = builder.Build();
 

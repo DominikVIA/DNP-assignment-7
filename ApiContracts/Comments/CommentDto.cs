@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using ApiContracts.Content;
+using ApiContracts.Users;
 
 namespace ApiContracts.Comments;
 
@@ -9,6 +10,7 @@ public class CommentDto
     public string Body { get; set; }
     public DateTime DateCreated { get; set; }
     public int RespondingToId { get; set; }
-    public User Author { get; set; }
-    public Content RespondingTo { get; set; }
+    public UserDto? Author { get; set; }
+    public ContentDto? RespondingTo { get; set; }
+    public List<CommentDto>? Comments { get; set; }
 }

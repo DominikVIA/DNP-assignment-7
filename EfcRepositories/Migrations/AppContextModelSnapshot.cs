@@ -33,13 +33,18 @@ namespace EfcRepositories.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.ToTable("Contents");
 
-                    b.ToTable("Contents", (string)null);
+                    b.HasDiscriminator().HasValue("Content");
 
-                    b.UseTptMappingStrategy();
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Entities.Reaction", b =>
@@ -89,9 +94,11 @@ namespace EfcRepositories.Migrations
                     b.Property<int>("RespondingToId")
                         .HasColumnType("INTEGER");
 
+                    b.HasIndex("AuthorId");
+
                     b.HasIndex("RespondingToId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.HasDiscriminator().HasValue("Comment");
                 });
 
             modelBuilder.Entity("Entities.Post", b =>
@@ -102,18 +109,9 @@ namespace EfcRepositories.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.ToTable("Posts", (string)null);
-                });
+                    b.HasIndex("AuthorId");
 
-            modelBuilder.Entity("Entities.Content", b =>
-                {
-                    b.HasOne("User", "Author")
-                        .WithMany("Contents")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
+                    b.HasDiscriminator().HasValue("Post");
                 });
 
             modelBuilder.Entity("Entities.Reaction", b =>
@@ -125,7 +123,7 @@ namespace EfcRepositories.Migrations
                         .IsRequired();
 
                     b.HasOne("User", "User")
-                        .WithMany("Reactions")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -137,40 +135,46 @@ namespace EfcRepositories.Migrations
 
             modelBuilder.Entity("Entities.Comment", b =>
                 {
-                    b.HasOne("Entities.Content", null)
-                        .WithOne()
-                        .HasForeignKey("Entities.Comment", "Id")
+                    b.HasOne("User", "Author")
+                        .WithMany("Comments")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.Content", "RespondingTo")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("RespondingToId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
 
                     b.Navigation("RespondingTo");
                 });
 
             modelBuilder.Entity("Entities.Post", b =>
                 {
-                    b.HasOne("Entities.Content", null)
-                        .WithOne()
-                        .HasForeignKey("Entities.Post", "Id")
+                    b.HasOne("User", "Author")
+                        .WithMany("Posts")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Entities.Content", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Reactions");
                 });
 
             modelBuilder.Entity("User", b =>
                 {
-                    b.Navigation("Contents");
+                    b.Navigation("Comments");
 
-                    b.Navigation("Reactions");
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

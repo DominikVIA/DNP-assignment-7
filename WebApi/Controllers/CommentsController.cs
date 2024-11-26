@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ApiContracts.Comments;
-using ApiContracts.Posts;
+﻿using ApiContracts.Comments;
+using ApiContracts.Content;
+using ApiContracts.Users;
 using Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 
 namespace WebApi.Controllers;
@@ -60,48 +57,57 @@ public class CommentsController
     // gets a single comment with given id and details
     [HttpGet("{id:int}")]
     public async Task<IResult> GetSingleComment(
-        [FromServices] IUserRepository userRepo,
-        [FromServices] IPostRepository postRepo,
         [FromRoute] int id,
         [FromQuery] bool includeAuthor,
-        [FromQuery] bool includeParentContent)
+        [FromQuery] bool includeParentContent,
+        [FromQuery] bool includeComments)
     {
-        try
-        {
-            await commentRepo.GetSingleAsync(id);
+        var queryForComment = commentRepo.GetMany().Where(c => c.Id == id).AsQueryable();
+
+        if (includeAuthor)
+            queryForComment.Include(c => c.Author);
         
-            Comment? temp = commentRepo.GetMany().FirstOrDefault(c => c.Id == id);
-            if (temp == null)
+        if (includeParentContent)
+            queryForComment.Include(c => c.RespondingTo);
+        
+        if (includeComments)
+            queryForComment.Include(c => c.Comments);
+
+        CommentDto? dto = await queryForComment.Select(c => new CommentDto
             {
-                return Results.NotFound($"Comment with id {id} not found");
+                Id = c.Id,
+                AuthorId = c.AuthorId,
+                Body = c.Body,
+                DateCreated = c.DateCreated,
+                RespondingToId = c.RespondingToId,
+
+                RespondingTo = includeParentContent ?
+                    new ContentDto
+                    {
+                        Id = c.RespondingTo.Id,
+                        AuthorId = c.RespondingTo.AuthorId,
+                        Body = c.RespondingTo.Body,
+                        DateCreated = c.RespondingTo.DateCreated,
+                    } : null,
+                Author = includeAuthor
+                    ? new UserDto
+                    {
+                        Id = c.Author.Id,
+                        Username = c.Author.Username
+                    }
+                    : null,
+                Comments = includeComments
+                    ? c.Comments.Select(c => new CommentDto
+                    {
+                        Id = c.Id,
+                        Body = c.Body,
+                        AuthorId = c.AuthorId,
+                        DateCreated = c.DateCreated
+                    }).ToList()
+                    : new(),
             }
-
-            CommentDto result = new CommentDto()
-            {
-                Id = temp.Id,
-                AuthorId = temp.AuthorId,
-                Body = temp.Body,
-                DateCreated = temp.DateCreated,
-                RespondingToId = temp.RespondingToId
-            };
-
-            if (includeAuthor)
-            {
-                result.Author = await userRepo.GetSingleAsync(temp.AuthorId);
-            }
-
-            if (includeParentContent)
-            {
-                result.RespondingTo = await postRepo.GetSingleAsync(temp.RespondingToId);
-            }
-
-            return Results.Ok(result);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return Results.Problem(e.Message);
-        }
+        ).FirstOrDefaultAsync();
+        return Results.Ok(dto);
     }
 
     
@@ -109,7 +115,14 @@ public class CommentsController
     [HttpGet]
     public IResult GetComments()
     {
-        IQueryable<Comment> comments = commentRepo.GetMany();
+        IQueryable<CommentDto> comments = commentRepo.GetMany().Select(c=> new CommentDto()
+        {
+            Id = c.Id,
+            AuthorId = c.AuthorId,
+            RespondingToId = c.RespondingToId,
+            Body = c.Body,
+            DateCreated = c.DateCreated,
+        });
         return Results.Ok(comments);
     }
     

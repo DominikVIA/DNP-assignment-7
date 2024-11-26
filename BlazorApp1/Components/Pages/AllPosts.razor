@@ -21,6 +21,8 @@ else
             <th>Title</th>
             <th>Date posted</th>
             <th>Comments</th>
+            <th>Likes</th>
+            <th>Dislikes</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -29,9 +31,11 @@ else
         {
             <Modal @ref="modal"/>
             <tr>
-                <td>@post.title</td>
-                <td>@post.dateCreated.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                <td>@(post.comments != null ? post.comments.Count : 0)</td>
+                <td>@post.Title</td>
+                <td>@post.DateCreated.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                <td>@(post.Comments != null ? post.Comments.Count : 0)</td>
+                <td>@post.Likes</td>
+                <td>@post.Dislikes</td>
                 <td>
                     <button class="btn btn-primary btn-sm" @onclick="() => ShowPostModal(post)">View Details</button>
                     <AuthorizeView>
@@ -57,7 +61,8 @@ else
     {
         var parameters = new Dictionary<string, object>();
         parameters.Add("Post", post);
-        selectedPostId = post.Id;
+        parameters.TryGetValue("Post", out var value);
+        // selectedPostId = post.Id;
         await modal.ShowAsync<PostModal>(title: "Post details", parameters: parameters);
     }
 
@@ -68,7 +73,7 @@ else
     
     protected override async Task OnInitializedAsync()
     {
-        posts = (await PostService.GetAllPostsAsync()).AsEnumerable().ToArray();
+        posts = (await PostService.GetAllPostsAsync()).ToArray();
         await InvokeAsync(StateHasChanged);
     }
 }

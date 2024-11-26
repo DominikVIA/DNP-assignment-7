@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ApiContracts.Comments;
+﻿using ApiContracts.Comments;
 using ApiContracts.Posts;
+using ApiContracts.Users;
 using Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 
 namespace WebApi.Controllers;
@@ -70,144 +67,149 @@ public class PostsController
     // gets a single post with given id and with given details
     [HttpGet("{id:int}")]
     public async Task<IResult> GetPostWithChoices(
-        [FromServices] IUserRepository userRepo,
-        [FromServices] ICommentRepository commentRepo,
-        [FromServices] IReactionRepository reactionRepo,
         [FromRoute] int id,
         [FromQuery] bool includeComments,
         [FromQuery] bool includeAuthor,
         [FromQuery] bool includeReactions)
     {
-        Post? temp = null;
-        try
+        IQueryable<Post> queryForPost = postRepo
+            .GetMany()
+            .Where(p => p.Id == id)
+            .AsQueryable();
+
+        if (includeAuthor)
         {
-            // Simulate getting the Post, as the method does not return the entity
-            await postRepo.GetSingleAsync(id);
-            temp = postRepo.GetMany().FirstOrDefault(p => p.Id == id);
-            if (temp == null)
-            {
-                return Results.NotFound($"Post with id {id} not found");
-            }
+            queryForPost = queryForPost.Include(p => p.Author);
+        }
 
-            PostDto gotten = new()
+        if (includeComments)
+        {
+            queryForPost = queryForPost.Include(p => p.Comments);
+        }
+        
+        if (includeReactions)
+        {
+            queryForPost = queryForPost.Include(p => p.Reactions);
+        }
+        
+        PostDto? dto = await queryForPost.Select(post => new PostDto()
             {
-                Id = temp.Id,
-                authorId = temp.AuthorId,
-                title = temp.Title,
-                body = temp.Body,
-                dateCreated = temp.DateCreated
-            };
-
-            if (includeComments)
-            {
-                gotten.comments = [];
-                List<Comment> comments = commentRepo.GetMany()
-                    .Where(comment => comment.RespondingToId == temp.Id)
-                    .ToList();
-                foreach (var comment in comments)
-                {
-                    gotten.comments.Add(new CommentDto
+                Id = post.Id,
+                Title = post.Title,
+                Body = post.Body,
+                AuthorId = post.AuthorId,
+                DateCreated = post.DateCreated,
+                Author = includeAuthor
+                    ? new UserDto
                     {
-                        Id = comment.Id,
-                        AuthorId = comment.AuthorId,
-                        Body = comment.Body,
-                        DateCreated = comment.DateCreated
-                    });
-                }
-            }
+                        Id = post.Author.Id,
+                        Username = post.Author.Username
+                    }
+                    : null,
+                Comments = includeComments
+                    ? post.Comments.Select(c => new CommentDto
+                    {
+                        Id = c.Id,
+                        Body = c.Body,
+                        AuthorId= c.AuthorId,
+                        DateCreated = c.DateCreated
+                    }).ToList()
+                    : new (),
+                Likes = includeReactions ? post.Reactions
+                    .Count(r => r.Like) : -1,
+                Dislikes = includeReactions ? post.Reactions
+                    .Count(r => !r.Like) : -1
+            })
+            .FirstOrDefaultAsync();
 
-            if (includeAuthor)
-            {
-                await userRepo.GetSingleAsync(temp.AuthorId);
-
-                gotten.author = userRepo.GetMany().FirstOrDefault(u => u.Id == temp.AuthorId);
-                if (gotten.author == null)
-                {
-                    return Results.NotFound($"Author with id {temp.AuthorId} not found");
-                }
-            }
-
-
-            if (includeReactions)
-            {
-                IQueryable<Reaction> reactions = reactionRepo.GetMany()
-                    .Where(reaction => reaction.ContentId == temp.Id);
-
-                gotten.likes = reactions.Count(reaction => reaction.Like);
-                gotten.dislikes = reactions.Count(reaction => !reaction.Like);
-            }
-
-            return Results.Ok(gotten);
-        }
-        catch (Exception e)
-        {
-            return Results.Problem(e.Message);
-        }
+        return dto == null ? Results.NotFound() : Results.Ok(dto);
     }
 
     
     // GET https://localhost:7065/Posts - gets all comments
     [HttpGet]
-    public async Task<IResult> GetPosts(
-        [FromServices] IUserRepository userRepo,
-        [FromServices] ICommentRepository commentRepo,
-        [FromServices] IReactionRepository reactionRepo)
+    public async Task<IResult> GetPosts(        
+        [FromQuery] bool includeComments,
+        [FromQuery] bool includeAuthor,
+        [FromQuery] bool includeReactions)
     {
-        IQueryable<Post> posts = postRepo.GetMany();
         List<PostDto> toReturn = new List<PostDto>();
-        foreach (var tempPost in posts)
+        
+        IQueryable<Post> queryForPosts = postRepo
+            .GetMany()
+            .AsQueryable();
+
+        if (includeAuthor)
         {
-            PostDto gotten = new()
+            queryForPosts = queryForPosts.Include(p => p.Author);
+        }
+
+        if (includeComments)
+        {
+            queryForPosts = queryForPosts.Include(p => p.Comments).ThenInclude(c => c.Author);
+        }
+        
+        if (includeReactions)
+        {
+            queryForPosts = queryForPosts.Include(p => p.Reactions);
+        }
+        
+        foreach (var tempPost in queryForPosts)
+        {
+            PostDto? dto = new PostDto()
             {
                 Id = tempPost.Id,
-                authorId = tempPost.AuthorId,
-                title = tempPost.Title,
-                body = tempPost.Body,
-                dateCreated = tempPost.DateCreated
+                Title = tempPost.Title,
+                Body = tempPost.Body,
+                AuthorId = tempPost.AuthorId,
+                DateCreated = tempPost.DateCreated,
+                Author = includeAuthor
+                    ? new UserDto
+                    {
+                        Id = tempPost.Author.Id,
+                        Username = tempPost.Author.Username
+                    }
+                    : null,
+                Comments = includeComments
+                    ? tempPost.Comments.Select(c => new CommentDto
+                    {
+                        Id = c.Id,
+                        Body = c.Body,
+                        AuthorId = c.AuthorId,
+                        DateCreated = c.DateCreated,
+                        Author = new UserDto
+                        {
+                            Id = c.Author.Id,
+                            Username = c.Author.Username
+                        }
+                    }).ToList()
+                    : new(),
+                Likes = includeReactions ? tempPost.Reactions
+                .Count(r => r.Like) : -1,
+                Dislikes = includeReactions ? tempPost.Reactions
+                    .Count(r => !r.Like) : -1
             };
 
-            IQueryable<Comment> comments = commentRepo.GetMany()
-                .Where(comment => comment.RespondingToId == tempPost.Id);
-
-            gotten.comments = new List<CommentDto>();
-
-            foreach (var comment in comments)
-            {
-                CommentDto tempCommentDto = new CommentDto {
-                    Id = comment.Id, 
-                    AuthorId = comment.AuthorId, 
-                    Body = comment.Body, 
-                    DateCreated = comment.DateCreated
-                };
-
-                await userRepo.GetSingleAsync(comment.AuthorId);
-                tempCommentDto.Author = userRepo.GetMany().FirstOrDefault(u => u.Id == comment.AuthorId);
-                if (tempCommentDto.Author == null)
-                {
-                    return Results.NotFound($"Author with id {comment.AuthorId} not found");
-                }
-
-                gotten.comments.Add(tempCommentDto);
-            }
-
-            await userRepo.GetSingleAsync(tempPost.AuthorId);
-            gotten.author = userRepo.GetMany().FirstOrDefault(u => u.Id == tempPost.AuthorId);
-            if (gotten.author == null)
-            {
-                return Results.NotFound($"Author with id {tempPost.AuthorId} not found");
-            }
-
-            toReturn.Add(gotten);
+            toReturn.Add(dto);
         }
 
         return Results.Ok(toReturn.AsQueryable());
     }
     
     [HttpGet("ByTitle")]
-    public IResult GetPostsByTitle([FromQuery] string titleContains)
+    public async Task<IResult> GetPostsByTitle([FromQuery] string titleContains)
     {
-        IQueryable<Post> posts = postRepo.GetMany()
-            .Where(p => p.Title.Contains(titleContains));
+        List<PostDto> posts = await postRepo.GetMany()
+            .Where(p => p.Title.Contains(titleContains))
+            .Select(p => new PostDto()
+            {
+                Id = p.Id,
+                Title = p.Title,
+                AuthorId = p.AuthorId,
+                Body = p.Body,
+                DateCreated = p.DateCreated
+            })
+            .ToListAsync();
 
         return Results.Ok(posts);
     }

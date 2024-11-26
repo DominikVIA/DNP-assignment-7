@@ -9,13 +9,7 @@ public class Content
 
     // Navigation properties
     public User Author { get; set; } = null!; 
-    public List<Reaction> Reactions { get; set; } = new(); 
-
-    // protected Content(int authorId, string body, DateTime dateCreated)
-    // {
-    //     AuthorId = authorId;
-    //     Body = body;
-    //     DateCreated = dateCreated;
-    // }
-    // private Content(){}  
+    public List<Reaction> Reactions { get; set; } = []; 
+    public List<Comment> Comments { get; set; } = [];
+    
 }

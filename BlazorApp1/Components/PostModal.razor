@@ -7,45 +7,45 @@
 
 <div class="row">
     <div class="col-5 col-md-3 text-end">Title:</div>
-    <div class="col-7 col-md-9">@post?.title</div>
+    <div class="col-7 col-md-9">@Post.Title</div>
 </div>
 <div class="row">
     <div class="col-5 col-md-3 text-end">Body:</div>
-    <div class="col-7 col-md-9">@post?.body</div>
+    <div class="col-7 col-md-9">@Post.Body</div>
 </div>
 <div class="row">
     <div class="col-5 col-md-3 text-end">Author:</div>
-    <div class="col-7 col-md-9">@post?.author.Username</div>
+    <div class="col-7 col-md-9">@Post.Author.Username</div>
 </div>
 <div class="row">
     <div class="col-5 col-md-3 text-end">Likes:</div>
-    <div class="col-7 col-md-9">@post?.likes</div>
+    <div class="col-7 col-md-9">@Post.Likes</div>
 </div>
 <div class="row">
     <div class="col-5 col-md-3 text-end">Dislikes:</div>
-    <div class="col-7 col-md-9">@post?.dislikes</div>
+    <div class="col-7 col-md-9">@Post.Dislikes</div>
 </div>
-@if (post?.comments != null && post?.comments.Count != 0)
+@if (Post.Comments != null && Post.Comments.Count != 0)
 {
-<table class="table">
-    <thead>
-    <tr>
-        <th>Body</th>
-        <th>Date Created</th>
-        <th>Author</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var comment in post?.comments)
-    {
-    <tr>
-        <td>@comment.Body</td>
-        <td>@comment.DateCreated.ToString("dd/MM/yyyy HH:mm")</td>
-        <td>@comment.Author.Username</td>
-    </tr>
-    }
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Body</th>
+            <th>Date Created</th>
+            <th>Author</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var comment in Post.Comments)
+        {
+            <tr>
+                <td>@comment.Body</td>
+                <td>@comment.DateCreated.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@comment.Author.Username</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 
 <AuthorizeView>
@@ -57,21 +57,24 @@
 </AuthorizeView>
 
 @code {
-private PostDto? post;
+    private PostDto? post;
 
-[Parameter] public PostDto Post { get; set; }
-[Parameter] public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+    [Parameter] public PostDto Post { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
 
-protected async override void OnInitialized()
-{
-post = Post;
-await base.OnInitializedAsync();
-}
-private void NavigateToAddComment()
-{
-    if (post != null)
+    protected override async void OnInitialized()
     {
-        NavManager.NavigateTo($"/AddComment/{post.Id}");
+        Console.WriteLine(Post.Comments.Count);
+        post = Post;
+        await base.OnInitializedAsync();
     }
-}
+
+    private void NavigateToAddComment()
+    {
+        if (post != null)
+        {
+            NavManager.NavigateTo($"/AddComment/{post.Id}");
+        }
+    }
+
 }

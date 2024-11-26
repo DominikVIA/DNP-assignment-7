@@ -2,6 +2,7 @@
 @using ApiContracts.Comments
 @using ApiContracts.Posts
 @using BlazorApp1.Services
+@using Microsoft.AspNetCore.Components
 @inject IPostService PostService
 @inject ICommentService CommentService
 @inject NavigationManager navMgr
@@ -11,9 +12,9 @@
 @if (post != null)
 {
     <div class="post-details">
-        <h4>@post.title</h4>
-        <p>@post.body</p>
-        <p><strong>Posted on:</strong> @post.dateCreated.ToString("g")</p>
+        <h4>@post.Title</h4>
+        <p>@post.Body</p>
+        <p><strong>Posted on:</strong> @post.DateCreated.ToString("g")</p>
 
         <button class="btn btn-danger mt-3" @onclick="DeletePost">Delete Post</button>
     </div>
@@ -53,7 +54,7 @@ else
     {
         post = await PostService.GetSinglePostAsync(postId);
         
-        allComments = (await CommentService.GetAllCommentsAsync()).ToList(); 
+        allComments = (await CommentService.GetAllCommentsByPostIdAsync(postId)).ToList(); 
 
         FilterCommentsByPostId();
     }

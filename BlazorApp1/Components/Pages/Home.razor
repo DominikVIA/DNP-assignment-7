@@ -1,8 +1,8 @@
 ﻿@page "/"
 @using BlazorApp1.Auth
+@using Microsoft.AspNetCore.Components
 @inject NavigationManager NavMgr
 @inject AuthenticationStateProvider AuthProvider
-@inject NavigationManager navMgr
 <PageTitle>Home</PageTitle>
 
 <h1>Welcome to Reddit 2</h1>
@@ -25,7 +25,7 @@
     private async Task LogoutAsync()
     {
         ((SimpleAuthProvider)AuthProvider).Logout();
-        navMgr.NavigateTo("/login"); 
+        NavMgr.NavigateTo("/login"); 
         await Task.CompletedTask;
     }
 }

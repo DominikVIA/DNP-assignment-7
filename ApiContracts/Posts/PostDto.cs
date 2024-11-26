@@ -1,17 +1,17 @@
 ﻿using ApiContracts.Comments;
-using Entities;
+using ApiContracts.Users;
 
 namespace ApiContracts.Posts;
 
 public class PostDto
 {
     public int Id { get; set; }
-    public int authorId { get; set; }
-    public string title { get; set; }  = string.Empty;
-    public string body { get; set; }  = string.Empty;
-    public DateTime dateCreated { get; set; }
-    public User author { get; set; }
-    public List<CommentDto> comments { get; set; }
-    public int likes { get; set; }
-    public int dislikes { get; set; }
+    public int AuthorId { get; set; }
+    public string Title { get; set; }  = string.Empty;
+    public string Body { get; set; }  = string.Empty;
+    public DateTime DateCreated { get; set; }
+    public UserDto? Author { get; set; }
+    public List<CommentDto> Comments { get; set; }
+    public int Likes { get; set; }
+    public int Dislikes { get; set; }
 }
